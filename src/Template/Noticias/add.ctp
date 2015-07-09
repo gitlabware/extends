@@ -92,20 +92,20 @@
                                 <div class="option-group field">
                                     &nbsp;&nbsp;&nbsp; Tipo &nbsp;
                                     <label class="option">
-                                        <input type="radio" name="tipo" value="1" onclick="muestraImpreso()">
-                                        <span class="radio"></span>Impreso</label>
+                                        <input type="checkbox" name="impreso" value="checked" onclick="muestraImpreso()">
+                                        <span class="checkbox"></span>Impreso</label>
                                     <label class="option">
-                                        <input type="radio" name="tipo" value="2" onclick="muestraDigital()">
-                                        <span class="radio"></span>Digital</label>
+                                        <input type="checkbox" name="digital" value="disabled" onclick="muestraDigital()">
+                                        <span class="checkbox"></span>Digital</label>
                                     <label class="option">
-                                        <input type="radio" name="tipo" value="3" onclick="muestraRadio()">
-                                        <span class="radio"></span>Radio</label>
+                                        <input type="checkbox" name="radio" value="CH" onclick="muestraRadio()">
+                                        <span class="checkbox"></span>Radio</label>
                                     <label class="option">
-                                        <input type="radio" name="tipo" value="4" onclick="muestraTv()">
-                                        <span class="radio"></span>TV</label>
+                                        <input type="checkbox" name="tv" value="CH" onclick="muestraTv()">
+                                        <span class="checkbox"></span>Tv</label>
                                     <label class="option">
-                                        <input type="radio" name="tipo" value="5" onclick="muestraFuente()">
-                                        <span class="radio"></span>Fuente</label>
+                                        <input type="checkbox" name="fuente" value="CH" onclick="muestraFuente()">
+                                        <span class="checkbox"></span>Fuente</label>
                                 </div>
                                 <!-- end .option-group section -->
                             </div>
