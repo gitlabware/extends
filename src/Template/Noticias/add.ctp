@@ -14,8 +14,9 @@
                 <div id="p1" class="panel heading-border panel-primary">
 
                     <div class="panel-body bg-light">
+
                         <!--<form method="post" action="" id="form-ui">-->
-                        <?php echo $this->Form->create($noticia); ?>
+                        <?php echo $this->Form->create($noticia, ['id' => 'formNoticia']); ?>                        
                         <div class="section-divider mb40" id="spy1">
                             <span>Nueva Noticia</span>
                         </div>
@@ -23,10 +24,10 @@
 
                         <!-- Input Icons -->
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="section">
                                     <label class="field prepend-icon">
-                                        <input type="text" name="fecha" class="form-control" id="datetimepicker1">
+                                        <input type="text" name="fecha" class="validate[required] form-control" id="datetimepicker1">
                                         <label for="firstname" class="field-icon"><i class="fa fa-calendar"></i>
                                         </label>
                                     </label>
@@ -34,14 +35,20 @@
                             </div>
 
                             <div class="col-md-6">
-                                <select name="cliente_id" class="form-control" name="ciudad_id">
-                                    <option value="0">Seleccione Cliente</option>
-                                    <option value="1">San Cristobal</option>
-                                    <option value="2">Cerveceria Boliviana</option>
-                                    <option value="3">Samsung</option>
-                                </select>
+                                <div id="divMulClientes">
+                                    <select name="clientes[]" class="select2-multiple form-control select-primary" placeholder="Clientes" multiple="multiple">
+                                        <?php foreach ($dcc as $c): ?>
+                                          <option value="<?= $c['id']; ?>"><?= $c['nombre']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>                         
+                                </div>
+                            </div>          
+                            <div class="col-md-1">                                   
+                                <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Clientes', 'action' => 'ajaxformcliente']); ?>');">
+                                    <i class="glyphicons glyphicons-circle_plus"></i>
+                                </button>
+                            </div>
 
-                            </div>                                
                         </div>
 
                         <div class="row">
@@ -89,22 +96,22 @@
                         <div class="row">
 
                             <div class="section mv15">
-                                <div class="option-group field">
+                                <div class="option-group field">                                    
                                     &nbsp;&nbsp;&nbsp; Tipo &nbsp;
                                     <label class="option">
-                                        <input type="checkbox" name="impreso" value="checked" onclick="muestraImpreso()">
+                                        <input type="checkbox" name="tipo[]" value="Impreso" onclick="muestraImpreso()">
                                         <span class="checkbox"></span>Impreso</label>
                                     <label class="option">
-                                        <input type="checkbox" name="digital" value="disabled" onclick="muestraDigital()">
+                                        <input type="checkbox" name="tipo[]" value="Digital" onclick="muestraDigital()">
                                         <span class="checkbox"></span>Digital</label>
                                     <label class="option">
-                                        <input type="checkbox" name="radio" value="CH" onclick="muestraRadio()">
+                                        <input type="checkbox" name="tipo[]" value="Radio" onclick="muestraRadio()">
                                         <span class="checkbox"></span>Radio</label>
                                     <label class="option">
-                                        <input type="checkbox" name="tv" value="CH" onclick="muestraTv()">
+                                        <input type="checkbox" name="tipo[]" value="Tv" onclick="muestraTv()">
                                         <span class="checkbox"></span>Tv</label>
                                     <label class="option">
-                                        <input type="checkbox" name="fuente" value="CH" onclick="muestraFuente()">
+                                        <input type="checkbox" name="tipo[]" value="Fuente" onclick="muestraFuente()">
                                         <span class="checkbox"></span>Fuente</label>
                                 </div>
                                 <!-- end .option-group section -->
@@ -122,13 +129,14 @@
                                 <div class="col-md-5">
                                     <?php //debug($dcm->all()); ?>
                                     <div id="divselimp">
-                                        <select name="medio_id" class="form-control" name="ciudad_id">
+                                        <select name="data[0][medio_id]" class="form-control">
                                             <option value="0">Seleccione Medio</option>
                                             <?php foreach ($dcm as $d): ?>
                                               <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
                                             <?php endforeach; ?>
                                         </select>                                                   
                                     </div>
+                                    <input type="hidden" name="data[0][tipo_id]" value="Impreso">
                                 </div>
                                 <div class="col-md-1">                                   
                                     <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
@@ -139,7 +147,7 @@
                                 <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="seccion" id="email" class="gui-input" placeholder="Seccion">
+                                            <input type="text" name="data[0][seccion]" id="email" class="gui-input" placeholder="Seccion">
                                             <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
                                             </label>
                                         </label>
@@ -148,7 +156,7 @@
                                 <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="search" name="pagina" id="s" class="gui-input" placeholder="Pagina">
+                                            <input type="text" name="data[0][pagina]" id="s" class="gui-input" placeholder="Pagina">
                                             <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                             </label>
                                         </label>
@@ -160,7 +168,7 @@
                                 <div class="col-md-8">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Titulo">
+                                            <input type="text" name="data[0][titulo]" id="firstname" class="gui-input" placeholder="Titulo">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -170,12 +178,13 @@
                                 <div class="col-md-4">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Genero">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            <input type="text" name="data[0][genero]" id="genero" class="gui-input" placeholder="Genero">
+                                            <label for="genero" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
                                     </div>
                                 </div>
+
                             </div>
 
                             <div class="row">
@@ -184,16 +193,16 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Formato&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="pdf" name="data[0][formato]" checked>
                                             <span class="radio"></span>PDF</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp3" name="data[0][formato]">
                                             <span class="radio"></span>MP3</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp4" name="data[0][formato]">
                                             <span class="radio"></span>MP4</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="jpg" name="data[0][formato]">
                                             <span class="radio"></span>JPG</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -206,7 +215,7 @@
                                     <div class="section">
                                         <label class="field prepend-icon append-button file">
                                             <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="file3" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
+                                            <input type="file" class="gui-file" name="data[0][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
                                             <input type="text" class="gui-input" id="uploader3" placeholder="">
                                             <label class="field-icon"><i class="fa fa-upload"></i>
                                             </label>
@@ -220,7 +229,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Descricion"></textarea>
+                                            <textarea class="gui-textarea" id="comment" name="data[0][descripcion]" placeholder="Descricion"></textarea>
                                             <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                             </label>
                                             <span class="input-footer">
@@ -235,7 +244,7 @@
                                     <div class="section">
                                         <label class="field prepend-icon">
                                             <div id="divselimptema">
-                                                <select name="cliente_id" class="form-control" name="ciudad_id">
+                                                <select name="data[0][tema_id]" class="form-control" name="tema_id">
                                                     <option value="0">Seleccione Tema</option>
                                                     <?php foreach ($dct as $t): ?>
                                                       <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
@@ -259,13 +268,13 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="Positivo" name="data[0][tendencia]" checked>
                                             <span class="radio"></span>Positivo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Negativo" name="data[0][tendencia]">
                                             <span class="radio"></span>Negativo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Neutro" name="data[0][tendencia]">
                                             <span class="radio"></span>Neutro</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -281,51 +290,38 @@
 
                             <!-- Input Formats -->
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="section">
-                                        <label class="field prepend-icon">
-                                            <input type="url" name="website" id="website" class="gui-input" placeholder="Medio">
-                                            <label for="website" class="field-icon"><i class="fa fa-globe"></i>
-                                            </label>
-                                        </label>
+                                <div class="col-md-5">
+                                    <?php //debug($dcm->all()); ?>
+                                    <div id="divselimp">
+                                        <select name="data[1][medio_id]" class="form-control">
+                                            <option value="0">Seleccione Medio</option>
+                                            <?php foreach ($dcm as $d): ?>
+                                              <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
+                                            <?php endforeach; ?>
+                                        </select>                                                   
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <input type="hidden" name="data[1][tipo_id]" value="Digital">
+                                <div class="col-md-1">                                   
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="email" name="email" id="email" class="gui-input" placeholder="Seccion">
+                                            <input type="text" name="data[1][seccion]" id="email" class="gui-input" placeholder="Seccion">
                                             <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
                                             </label>
                                         </label>
                                     </div>
                                 </div>                                
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="search" name="s" id="s" class="gui-input" placeholder="Pagina">
+                                            <input type="text" name="data[1][pagina]" id="s" class="gui-input" placeholder="Pagina">
                                             <label for="s" class="field-icon"><i class="fa fa-search"></i>
-                                            </label>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="section">
-                                        <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Titulo">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
-                                            </label>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="section">
-                                        <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Genero">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
                                     </div>
@@ -336,8 +332,31 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Web">
+                                            <input type="text" name="data[1][titulo]" id="firstname" class="gui-input" placeholder="Titulo">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="text" name="data[1][web]" id="firstname" class="gui-input" placeholder="Web">
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="text" name="data[1][genero]" id="genero" class="gui-input" placeholder="Genero">
+                                            <label for="genero" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
                                     </div>
@@ -351,16 +370,16 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Formato&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="pdf" name="data[1][formato]" checked>
                                             <span class="radio"></span>PDF</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp3" name="data[1][formato]">
                                             <span class="radio"></span>MP3</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp4" name="data[1][formato]">
                                             <span class="radio"></span>MP4</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="jpg" name="data[1][formato]">
                                             <span class="radio"></span>JPG</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -373,7 +392,7 @@
                                     <div class="section">
                                         <label class="field prepend-icon append-button file">
                                             <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="file3" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
+                                            <input type="file" class="gui-file" name="data[1][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
                                             <input type="text" class="gui-input" id="uploader3" placeholder="">
                                             <label class="field-icon"><i class="fa fa-upload"></i>
                                             </label>
@@ -387,7 +406,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Descricion"></textarea>
+                                            <textarea class="gui-textarea" id="comment" name="data[1][descripcion]" placeholder="Descricion"></textarea>
                                             <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                             </label>
                                             <span class="input-footer">
@@ -398,14 +417,24 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Tema">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
-                                            </label>
-                                        </label>
+                                            <div id="divselimptema">
+                                                <select name="data[1][tema_id]" class="form-control" name="tema_id">
+                                                    <option value="0">Seleccione Tema</option>
+                                                    <?php foreach ($dct as $t): ?>
+                                                      <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
+                                                    <?php endforeach; ?>
+                                                </select>                                                   
+                                            </div>
+                                        </label>                                        
                                     </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
                                 </div>
 
                             </div>
@@ -416,19 +445,20 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="Positivo" name="data[1][tendencia]" checked>
                                             <span class="radio"></span>Positivo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Negativo" name="data[1][tendencia]">
                                             <span class="radio"></span>Negativo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Neutro" name="data[1][tendencia]">
                                             <span class="radio"></span>Neutro</label>
                                     </div>
                                     <!-- end .option-group section -->
                                 </div>
 
-                            </div>     
+                            </div>  
+
                         </div>
                         <div id="formRadio" style="display: none;">
 
@@ -438,28 +468,37 @@
 
                             <!-- Input Formats -->
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="section">
-                                        <label class="field prepend-icon">
-                                            <input type="url" name="website" id="website" class="gui-input" placeholder="Medio">
-                                            <label for="website" class="field-icon"><i class="fa fa-globe"></i>
-                                            </label>
-                                        </label>
+                                <div class="col-md-5">
+                                    <?php //debug($dcm->all()); ?>
+                                    <div id="divselimp">
+                                        <select name="data[2][medio_id]" class="form-control">
+                                            <option value="0">Seleccione Medio</option>
+                                            <?php foreach ($dcm as $d): ?>
+                                              <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
+                                            <?php endforeach; ?>
+                                        </select> 
+                                        <input type="hidden" name="data[2][tipo_id]" value="Radio">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-1">                                   
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="email" name="email" id="email" class="gui-input" placeholder="Fuente">
+                                            <input type="text" name="data[2][fuente]" id="email" class="gui-input" placeholder="Fuente">
                                             <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
                                             </label>
                                         </label>
                                     </div>
                                 </div>                                
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="search" name="s" id="s" class="gui-input" placeholder="Alias">
+                                            <input type="text" name="data[2][pagina]" id="s" class="gui-input" placeholder="Alias">
                                             <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                             </label>
                                         </label>
@@ -471,7 +510,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Titulo">
+                                            <input type="text" name="data[2][titulo]" id="firstname" class="gui-input" placeholder="Titulo">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -484,7 +523,7 @@
                                 <div class="col-md-8">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Riesgo Comunicacional">
+                                            <input type="text" name="data[2][riesgo]" id="firstname" class="gui-input" placeholder="Riesgo Comunicacional">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -494,7 +533,7 @@
                                 <div class="col-md-4">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Programa">
+                                            <input type="text" name="data[2][programa]" id="firstname" class="gui-input" placeholder="Programa">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -508,16 +547,16 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Formato&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="pdf" name="data[2][formato]" checked>
                                             <span class="radio"></span>PDF</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp3" name="data[2][formato]">
                                             <span class="radio"></span>MP3</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp4" name="data[2][formato]">
                                             <span class="radio"></span>MP4</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="jpg" name="data[2][formato]">
                                             <span class="radio"></span>JPG</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -530,7 +569,7 @@
                                     <div class="section">
                                         <label class="field prepend-icon append-button file">
                                             <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="file3" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
+                                            <input type="file" class="gui-file" name="data[2][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
                                             <input type="text" class="gui-input" id="uploader3" placeholder="">
                                             <label class="field-icon"><i class="fa fa-upload"></i>
                                             </label>
@@ -544,7 +583,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Descricion"></textarea>
+                                            <textarea class="gui-textarea" id="comment" name="data[2][descripcion]" placeholder="Descricion"></textarea>
                                             <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                             </label>
                                             <span class="input-footer">
@@ -555,14 +594,24 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Tema">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
-                                            </label>
-                                        </label>
+                                            <div id="divselimptema">
+                                                <select name="data[2][tema_id]" class="form-control" name="tema_id">
+                                                    <option value="0">Seleccione Tema</option>
+                                                    <?php foreach ($dct as $t): ?>
+                                                      <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
+                                                    <?php endforeach; ?>
+                                                </select>                                                   
+                                            </div>
+                                        </label>                                        
                                     </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
                                 </div>
 
                             </div>
@@ -573,13 +622,13 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="Positivo" name="data[2][tendencia]" checked>
                                             <span class="radio"></span>Positivo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Negativo" name="data[2][tendencia]">
                                             <span class="radio"></span>Negativo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Neutro" name="data[2][tendencia]">
                                             <span class="radio"></span>Neutro</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -598,28 +647,37 @@
 
                             <!-- Input Formats -->
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="section">
-                                        <label class="field prepend-icon">
-                                            <input type="url" name="website" id="website" class="gui-input" placeholder="Medio">
-                                            <label for="website" class="field-icon"><i class="fa fa-globe"></i>
-                                            </label>
-                                        </label>
+                                <div class="col-md-5">
+                                    <?php //debug($dcm->all()); ?>
+                                    <div id="divselimp">
+                                        <select name="data[3][medio_id]" class="form-control">
+                                            <option value="0">Seleccione Medio</option>
+                                            <?php foreach ($dcm as $d): ?>
+                                              <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
+                                            <?php endforeach; ?>
+                                        </select>  
+                                        <input type="hidden" name="data[3][tipo_id]" value="Tv">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-1">                                   
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="email" name="email" id="email" class="gui-input" placeholder="Fuente">
+                                            <input type="text" name="data[3][fuente]" id="email" class="gui-input" placeholder="Fuente">
                                             <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
                                             </label>
                                         </label>
                                     </div>
                                 </div>                                
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="search" name="s" id="s" class="gui-input" placeholder="Alias">
+                                            <input type="text" name="data[3][pagina]" id="s" class="gui-input" placeholder="Alias">
                                             <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                             </label>
                                         </label>
@@ -631,7 +689,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Titulo">
+                                            <input type="text" name="data[3][titulo]" id="firstname" class="gui-input" placeholder="Titulo">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -644,7 +702,7 @@
                                 <div class="col-md-8">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Riesgo Comunicacional">
+                                            <input type="text" name="data[3][riesgo]" id="firstname" class="gui-input" placeholder="Riesgo Comunicacional">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -654,7 +712,7 @@
                                 <div class="col-md-4">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Programa">
+                                            <input type="text" name="data[3][programa]" id="firstname" class="gui-input" placeholder="Programa">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -668,16 +726,16 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Formato&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="pdf" name="data[3][formato]" checked>
                                             <span class="radio"></span>PDF</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp3" name="data[3][formato]">
                                             <span class="radio"></span>MP3</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp4" name="data[3][formato]">
                                             <span class="radio"></span>MP4</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="jpg" name="data[3][formato]">
                                             <span class="radio"></span>JPG</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -690,7 +748,7 @@
                                     <div class="section">
                                         <label class="field prepend-icon append-button file">
                                             <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="file3" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
+                                            <input type="file" class="gui-file" name="data[3][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
                                             <input type="text" class="gui-input" id="uploader3" placeholder="">
                                             <label class="field-icon"><i class="fa fa-upload"></i>
                                             </label>
@@ -704,7 +762,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Descricion"></textarea>
+                                            <textarea class="gui-textarea" id="comment" name="data[3][descripcion]" placeholder="Descricion"></textarea>
                                             <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                             </label>
                                             <span class="input-footer">
@@ -715,14 +773,24 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Tema">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
-                                            </label>
-                                        </label>
+                                            <div id="divselimptema">
+                                                <select name="data[3][tema_id]" class="form-control" name="tema_id">
+                                                    <option value="0">Seleccione Tema</option>
+                                                    <?php foreach ($dct as $t): ?>
+                                                      <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
+                                                    <?php endforeach; ?>
+                                                </select>                                                   
+                                            </div>
+                                        </label>                                        
                                     </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
                                 </div>
 
                             </div>
@@ -733,19 +801,19 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="Positivo" name="data[3][tendencia]" checked>
                                             <span class="radio"></span>Positivo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Negativo" name="data[3][tendencia]">
                                             <span class="radio"></span>Negativo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Neutro" name="data[3][tendencia]">
                                             <span class="radio"></span>Neutro</label>
                                     </div>
                                     <!-- end .option-group section -->
                                 </div>
 
-                            </div>     
+                            </div>    
 
                         </div>
 
@@ -755,34 +823,55 @@
                             </div>
 
                             <!-- Input Formats -->
+                             <div class="row">
+                                <div class="col-md-10">
+                                    <?php //debug($dcm->all()); ?>
+                                    <div id="divselimp">
+                                        <select name="data[4][medio_id]" class="form-control">
+                                            <option value="0">Seleccione Medio</option>
+                                            <?php foreach ($dcm as $d): ?>
+                                              <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
+                                            <?php endforeach; ?>
+                                        </select>   
+                                        <input type="hidden" name="data[4][tipo_id]" value="Fuente">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">                                   
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
+                                </div>                                
+                                
+                            </div>
+                            <p>&nbsp;</p>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="url" name="website" id="website" class="gui-input" placeholder="Medio">
-                                            <label for="website" class="field-icon"><i class="fa fa-globe"></i>
+                                            <input type="text" name="data[4][titlulo]" id="firstname" class="gui-input" placeholder="Titulo">
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
                                     </div>
                                 </div>
-
+                                
                             </div>
-
+                            
                             <div class="row">
+                              <div class="col-md-4">
+                                    <div class="section">
+                                        <label class="field prepend-icon">
+                                            <input type="text" name="data[4][fuente]" id="firstname" class="gui-input" placeholder="Fuente">
+                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
+                                            </label>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="col-md-8">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Titulo">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
-                                            </label>
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="section">
-                                        <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Alias">
+                                            <input type="text" name="data[4][alias]" id="firstname" class="gui-input" placeholder="Alias">
                                             <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                             </label>
                                         </label>
@@ -790,22 +879,22 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                          <div class="row">
 
                                 <div class="section mb15 border-right">                                    
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Formato&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="pdf" name="data[4][formato]" checked>
                                             <span class="radio"></span>PDF</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp3" name="data[4][formato]">
                                             <span class="radio"></span>MP3</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="mp4" name="data[4][formato]">
                                             <span class="radio"></span>MP4</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="jpg" name="data[4][formato]">
                                             <span class="radio"></span>JPG</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -818,7 +907,7 @@
                                     <div class="section">
                                         <label class="field prepend-icon append-button file">
                                             <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="file3" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
+                                            <input type="file" class="gui-file" name="data[4][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
                                             <input type="text" class="gui-input" id="uploader3" placeholder="">
                                             <label class="field-icon"><i class="fa fa-upload"></i>
                                             </label>
@@ -832,7 +921,7 @@
                                 <div class="col-md-12">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <textarea class="gui-textarea" id="comment" name="comment" placeholder="Descricion"></textarea>
+                                            <textarea class="gui-textarea" id="comment" name="data[4][descripcion]" placeholder="Descricion"></textarea>
                                             <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                             </label>
                                             <span class="input-footer">
@@ -843,14 +932,24 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="Tema">
-                                            <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
-                                            </label>
-                                        </label>
+                                            <div id="divselimptema">
+                                                <select name="data[4][tema_id]" class="form-control" name="tema_id">
+                                                    <option value="0">Seleccione Tema</option>
+                                                    <?php foreach ($dct as $t): ?>
+                                                      <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
+                                                    <?php endforeach; ?>
+                                                </select>                                                   
+                                            </div>
+                                        </label>                                        
                                     </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                        <i class="glyphicons glyphicons-circle_plus"></i>
+                                    </button>
                                 </div>
 
                             </div>
@@ -861,13 +960,13 @@
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
                                         <label class="option">
-                                            <input type="radio" name="payment" checked>
+                                            <input type="radio" value="Positivo" name="data[4][tendencia]" checked>
                                             <span class="radio"></span>Positivo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Negativo" name="data[4][tendencia]">
                                             <span class="radio"></span>Negativo</label>
                                         <label class="option">
-                                            <input type="radio" name="payment">
+                                            <input type="radio" value="Neutro" name="data[4][tendencia]">
                                             <span class="radio"></span>Neutro</label>
                                     </div>
                                     <!-- end .option-group section -->
@@ -937,17 +1036,25 @@
 <script src="<?= $this->request->webroot; ?>js/vendor/plugins/moment/moment.min.js"></script>
 <script src="<?= $this->request->webroot; ?>js/vendor/plugins/daterange/daterangepicker.js"></script>
 <script src="<?= $this->request->webroot; ?>js/vendor/plugins/datepicker/js/bootstrap-datetimepicker.js"></script>
+<script src="<?= $this->request->webroot; ?>js/vendor/plugins/select2/select2.min.js"></script>
 
 <!-- Select2 Plugin Plugin -->
 <?php echo $this->Html->script('cambiaColorForm', ['block' => 'scriptjs']); ?>
 <script>
 // Init DateRange plugin
                                               $('#datetimepicker1, #datetimepicker2').datetimepicker({
-                                                  pickTime: false                                                 
+                                                  pickTime: false,
+                                                  format: 'YYYY-MM-DD'
                                               });
 
                                               $('#multiselect2').multiselect({
                                                   includeSelectAllOption: true
+                                              });
+
+                                              // Init Select2 - Basic Multiple
+                                              $(".select2-multiple").select2({
+                                                  placeholder: "Seleccione cliente",
+                                                  allowClear: true
                                               });
 
                                               function muestraImpreso() {
@@ -965,6 +1072,12 @@
                                               function muestraFuente() {
                                                   $("#formFuente").toggle('slow');
                                               }
+</script>
+<script>
+  jQuery(document).ready(function () {
+      // binds form submission and fields to the validation engine
+      jQuery("#formNoticia").validationEngine();
+  });
 
 </script>
 <!-- END: PAGE SCRIPTS -->

@@ -17,7 +17,9 @@ class NoticiasTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.noticias'
+        'app.noticias',
+        'app.medios',
+        'app.temas'
     ];
 
     /**
@@ -60,6 +62,16 @@ class NoticiasTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

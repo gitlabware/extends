@@ -48,6 +48,7 @@ class MediosController extends AppController {
     $medio = $this->Medios->newEntity();
     if ($this->request->is('post')) {
       $medio = $this->Medios->patchEntity($medio, $this->request->data);
+      debug($medio);die;
       if ($this->Medios->save($medio)) {
         $this->Flash->success(__('The medio has been saved.'));
         return $this->redirect(['action' => 'index']);

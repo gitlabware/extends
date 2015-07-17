@@ -19,6 +19,7 @@
         
         <!-- icons -->
         <link rel="stylesheet" type="text/css" href="<?php echo $this->request->webroot; ?>/fonts/glyphicons-pro/glyphicons-pro.css">
+        <link rel="stylesheet" href="<?php echo $this->request->webroot; ?>css/validationEngine.jquery.css" type="text/css"/>
 
         <!-- Favicon -->
         <link rel="shortcut icon" href="<?php echo $this->request->webroot; ?>img/favicon.ico">
@@ -29,6 +30,11 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/jquery-1.11.1.min.js"></script>
+        <script>
+          $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
+    options.async = true;
+});
+        </script>
     </head>
 
     <body class="blank-page">  
@@ -315,15 +321,15 @@
                 <script>
                     function cargarmodal(urll)
                     {
-                        jQuery("#spin-cargando-mod").addClass('show');
-                        jQuery('#modal-principal').modal('show', {backdrop: 'static'});
-                        jQuery("#divmodalimprenta").load(urll, function (responseText, textStatus, req) {
+                        $("#spin-cargando-mod").addClass('show');
+                        $('#modal-principal').modal('show', {backdrop: 'static'});
+                        $("#divmodalimprenta").load(urll, function (responseText, textStatus, req) {
                             if (textStatus == "error")
                             {
                                 alert("error!!!");
                             }
                             else {
-                                jQuery("#spin-cargando-mod").removeClass('show');
+                                $("#spin-cargando-mod").removeClass('show');
                             }
                         });
 
@@ -427,6 +433,9 @@
         <!-- BEGIN: PAGE SCRIPTS -->
 
         <!-- jQuery -->
+        
+        <script src="<?php echo $this->request->webroot; ?>js/languages/jquery.validationEngine-es.js" type="text/javascript" charset="utf-8">	</script>
+        <script src="<?php echo $this->request->webroot; ?>js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/jquery_ui/jquery-ui.min.js"></script>
 

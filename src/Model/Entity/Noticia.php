@@ -15,8 +15,29 @@ class Noticia extends Entity
      * @var array
      */
     protected $_accessible = [
-        'nombre' => true,
+        'medio_id' => true,
+        'tema_id' => true,
+        'tipo' => true,
         'fecha' => true,
+        'notaprensa' => true,
+        'codigo' => true,
         'clasificacion' => true,
+        'seccion' => true,
+        'pagina' => true,
+        'titulo' => true,
+        'genero' => true,
+        'web' => true,
+        'fuente' => true,
+        'alias' => true,
+        'riesgo' => true,
+        'formato' => true,
+        'nombrearchivo' => true,
+        'descripcion' => true,
+        'tendencia' => true,
+        'longitud' => true,
+        'costo' => true,
+        'cliente_id' => true,
+        'medio' => true,
+        'tema' => true,
     ];
 }
