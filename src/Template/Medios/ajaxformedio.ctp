@@ -22,9 +22,10 @@
                 <!-- end section -->
 
                 <div class="col-md-6">
-                    <label for="firstname" class="field prepend-icon">
-                        <input type="text" id="disabledInput" name="vtipo" id="firstname" class="form-control" value="Impreso" disabled="">
-                        <?php echo $this->Form->hidden('tipo', ['value' => 'Impreso']); ?>                        
+                    <label for="firstname" class="field prepend-icon"> 
+                        <?php //debug($medio);?>
+                        <input type="text" id="disabledInput" name="vtipo" id="firstname" class="form-control" value="<?= $tipomedio; ?>" disabled="">
+                        <?php echo $this->Form->hidden('tipo', ['value' => "$tipomedio"]); ?>                        
                         <label for="firstname" class="field-icon">
                             <i class="fa fa-user"></i>
                         </label>
@@ -99,7 +100,7 @@
                       $("#modal-principal").modal('hide');  
                       $('#modal-principal').on('hidden.bs.modal', function () {
                           //console.log('El modal se cerro');                          
-                          $("#divselimp").load("<?php echo $this->url->build(['action'=>'ajaxactselect', 'Impreso']); ?>");
+                          $("#<?= $div; ?>").load("<?php echo $this->url->build(['action'=>'ajaxactselect', $tipomedio]); ?>");
                       });
 
                       

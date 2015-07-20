@@ -99,7 +99,7 @@ class TemasController extends AppController {
     return $this->redirect(['action' => 'index']);
   }
 
-  public function ajaxformtema() {
+  public function ajaxformtema($div = null) {
     
     $this->layout = 'ajax';
     $tema = $this->Temas->newEntity();
@@ -113,7 +113,7 @@ class TemasController extends AppController {
         //$this->Flash->error(__('The tema could not be saved. Please, try again.'));
       }
     }
-    $this->set(compact('tema'));
+    $this->set(compact('tema', 'div'));
     $this->set('_serialize', ['tema']);
     
   }

@@ -103,7 +103,7 @@ class MediosController extends AppController {
     return $this->redirect(['action' => 'index']);
   }
 
-  public function ajaxformedio($tipomedio = null) {
+  public function ajaxformedio($tipomedio = null, $div = null) {
     $this->layout = 'ajax';
     $medio = $this->Medios->newEntity();
 
@@ -118,7 +118,7 @@ class MediosController extends AppController {
       }
     }
     $cdd = ['La Paz' => 'La Paz', 'Cochabamba' => 'Cochabamba', 'Santa Cruz' => 'Santa Cruz', 'Pando' => 'Pando', 'Beni' => 'Beni', 'Oruro' => 'Oruro', 'Potosi' => 'Potosi', 'Tarija' => 'Tarija'];
-    $this->set(compact('medio', 'tipomedio', 'cdd'));
+    $this->set(compact('medio', 'tipomedio', 'cdd', 'div'));
     $this->set('_serialize', ['medio']);
   }
 
@@ -127,7 +127,7 @@ class MediosController extends AppController {
     //$dcm = TableRegistry::get('Medios')->find();    
     $medios = TableRegistry::get('Medios');
     $dcm = $medios->find('all', [
-      'conditions' => ['Medios.tipo' => 'Impreso'],
+      'conditions' => ['Medios.tipo' => "$tipo"],
       'order'=>['Medios.nombre ASC']
     ]);
     $this->set(compact('dcm'));

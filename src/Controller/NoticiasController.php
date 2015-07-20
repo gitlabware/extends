@@ -81,7 +81,7 @@ class NoticiasController extends AppController {
             $this->request->data['Noticia']['costo'] = 0;
             //debug($this->request->data['Noticia']);die;
             $noticia = $this->Noticias->patchEntity($noticia, $this->request->data['Noticia']);
-            $noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
+            //$noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
             if ($this->Noticias->save($noticia)) {
               $this->Flash->success(__('The noticia has been saved.'));
               return $this->redirect(['action' => 'listado']);
@@ -99,6 +99,34 @@ class NoticiasController extends AppController {
       'conditions' => ['Medios.tipo' => 'Impreso'],
       'order' => ['Medios.nombre ASC']
     ]);
+    
+    //debug($dcm->toArray());
+    
+    $dcmd = $medios
+      ->find()
+      ->where(['tipo' => 'Digital'])
+      ->order(['nombre'=>'ASC'])
+      ->toArray();
+    
+    $dcmr = $medios
+      ->find()
+      ->where(['tipo' => 'Radio'])
+      ->order(['nombre'=>'ASC'])
+      ->toArray();
+    
+    $dcmt = $medios
+      ->find()
+      ->where(['tipo' => 'Tv'])
+      ->order(['nombre'=>'ASC'])
+      ->toArray();
+    
+    $dcmf = $medios
+      ->find()
+      ->where(['tipo' => 'Fuente'])
+      ->order(['nombre'=>'ASC'])
+      ->toArray();
+    
+    //debug($dcmd);die;
 
     $dct = TableRegistry::get('Temas')->find('all', [
       'order' => ['Temas.nombre ASC']
@@ -112,7 +140,7 @@ class NoticiasController extends AppController {
     //$dcm = $this->Medios->find('all');
     //debug($dct->toArray());die();
     $noticia = $this->Noticias->newEntity();
-    $this->set(compact('noticia', 'dcm', 'dct', 'dcc'));
+    $this->set(compact('noticia', 'dcm', 'dct', 'dcc', 'dcmd','dcmr', 'dcmt', 'dcmf'));
     $this->set('_serialize', ['noticia']);
   }
 
@@ -172,7 +200,8 @@ class NoticiasController extends AppController {
       'contain'=>['Clientes', 'Temas', 'Medios'] 
     ]);
     //debug($noticias->toArray());die;
-    $this->set(compact('noticias'));
+    $this->set(compact('noticias')); 
+    //$this->set('_serialize', ['noticias']);
   }
 
 }

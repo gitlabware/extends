@@ -139,7 +139,7 @@
                                     <input type="hidden" name="data[0][tipo_id]" value="Impreso">
                                 </div>
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso', 'divselimp']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -243,7 +243,7 @@
                                 <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <div id="divselimptema">
+                                            <div id="divselimptemai">
                                                 <select name="data[0][tema_id]" class="form-control" name="tema_id">
                                                     <option value="0">Seleccione Tema</option>
                                                     <?php foreach ($dct as $t): ?>
@@ -255,7 +255,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemai']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -292,10 +292,10 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <?php //debug($dcm->all()); ?>
-                                    <div id="divselimp">
+                                    <div id="divseldig">
                                         <select name="data[1][medio_id]" class="form-control">
                                             <option value="0">Seleccione Medio</option>
-                                            <?php foreach ($dcm as $d): ?>
+                                            <?php foreach ($dcmd as $d): ?>
                                               <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
                                             <?php endforeach; ?>
                                         </select>                                                   
@@ -303,7 +303,7 @@
                                 </div>
                                 <input type="hidden" name="data[1][tipo_id]" value="Digital">
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Digital', 'divseldig']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -420,7 +420,7 @@
                                 <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <div id="divselimptema">
+                                            <div id="divselimptemad">
                                                 <select name="data[1][tema_id]" class="form-control" name="tema_id">
                                                     <option value="0">Seleccione Tema</option>
                                                     <?php foreach ($dct as $t): ?>
@@ -432,7 +432,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemad']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -470,10 +470,10 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <?php //debug($dcm->all()); ?>
-                                    <div id="divselimp">
+                                    <div id="divselrad">
                                         <select name="data[2][medio_id]" class="form-control">
                                             <option value="0">Seleccione Medio</option>
-                                            <?php foreach ($dcm as $d): ?>
+                                            <?php foreach ($dcmr as $d): ?>
                                               <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
                                             <?php endforeach; ?>
                                         </select> 
@@ -481,7 +481,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Radio', 'divselrad']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -597,7 +597,7 @@
                                 <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <div id="divselimptema">
+                                            <div id="divselimptemar">
                                                 <select name="data[2][tema_id]" class="form-control" name="tema_id">
                                                     <option value="0">Seleccione Tema</option>
                                                     <?php foreach ($dct as $t): ?>
@@ -609,7 +609,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemar']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -649,10 +649,10 @@
                             <div class="row">
                                 <div class="col-md-5">
                                     <?php //debug($dcm->all()); ?>
-                                    <div id="divselimp">
+                                    <div id="divseltv">
                                         <select name="data[3][medio_id]" class="form-control">
                                             <option value="0">Seleccione Medio</option>
-                                            <?php foreach ($dcm as $d): ?>
+                                            <?php foreach ($dcmt as $d): ?>
                                               <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
                                             <?php endforeach; ?>
                                         </select>  
@@ -660,7 +660,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Tv', 'divseltv']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -776,7 +776,7 @@
                                 <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <div id="divselimptema">
+                                            <div id="divselimptemat">
                                                 <select name="data[3][tema_id]" class="form-control" name="tema_id">
                                                     <option value="0">Seleccione Tema</option>
                                                     <?php foreach ($dct as $t): ?>
@@ -788,7 +788,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemat']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -826,10 +826,10 @@
                              <div class="row">
                                 <div class="col-md-10">
                                     <?php //debug($dcm->all()); ?>
-                                    <div id="divselimp">
+                                    <div id="divselfue">
                                         <select name="data[4][medio_id]" class="form-control">
                                             <option value="0">Seleccione Medio</option>
-                                            <?php foreach ($dcm as $d): ?>
+                                            <?php foreach ($dcmf as $d): ?>
                                               <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
                                             <?php endforeach; ?>
                                         </select>   
@@ -837,7 +837,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Fuente', 'divselfue']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>                                
@@ -935,7 +935,7 @@
                                 <div class="col-md-11">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <div id="divselimptema">
+                                            <div id="divselimptemaf">
                                                 <select name="data[4][tema_id]" class="form-control" name="tema_id">
                                                     <option value="0">Seleccione Tema</option>
                                                     <?php foreach ($dct as $t): ?>
@@ -947,7 +947,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemaf']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>

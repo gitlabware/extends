@@ -8,51 +8,60 @@
     <!-- begin: .tray-center -->
     <div class="tray tray-center pv40 ph30 va-t posr animated-delay animated-long" data-animate='["800","fadeIn"]'>                 
         <div class="tray tray-center">
-        <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-visible" id="spy1">
-                <div class="panel-heading">
-                    <div class="panel-title hidden-xs">
-                        <span class="glyphicon glyphicon-tasks"></span>Listado de Noticias</div>
-                </div>
-                <?php //debug($noticias->toArray()); ?>
-                <div class="panel-body pn">
-                    <table class="table table-striped table-hover display" id="datatable5" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Medio</th>
-                                <th>Titulo</th>
-                                <th>Tendencia</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($noticias as $n): ?>
-                              <tr>
-                                  <td><?= $n['fecha']; ?></td>
-                                  <td><?= $n['cliente']['nombre']; ?></td>
-                                  <td><?= $n['medio']['nombre']; ?></td>
-                                  <td><?= $n['titulo']; ?></td>
-                                  <td><?= $n['tendencia']; ?></td>
-                              </tr>
-                            <?php endforeach; ?>                      
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Medio</th>
-                                <th>Titulo</th>
-                                <th>Tendencia</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-visible" id="spy1">
+                        <div class="panel-heading">
+                            <div class="panel-title hidden-xs">
+                                <span class="glyphicon glyphicon-tasks"></span>Listado de Noticias</div>
+                        </div>
+                        <?php //debug($noticias->toArray()); ?>
+                        <div class="panel-body pn">
+                            <table class="table table-striped table-hover display" id="datatable5" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Medio</th>
+                                        <th>Titulo</th>
+                                        <th>Tendencia</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($noticias as $n): ?>
+                                      <tr>
+                                          <td><?= $n['fecha']; ?></td>
+                                          <td><?= $n['cliente']['nombre']; ?></td>
+                                          <td><?= $n['medio']['nombre']; ?></td>
+                                          <td><?= $n['titulo']; ?></td>
+                                          <td><?= $n['tendencia']; ?></td>
+                                          <td>
+                                              <div class="btn-group">
+                                                  <a href="#<?// $this->url->build(['action'=>'edit', $n['id']]); ?>" type="button" class="btn btn-info">
+                                                      <i class="fa fa-edit"></i>
+                                                  </a>
+                                              </div>                                              
+                                          </td>
+                                      </tr>
+                                    <?php endforeach; ?>                      
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cliente</th>
+                                        <th>Medio</th>
+                                        <th>Titulo</th>
+                                        <th>Tendencia</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-            </div>
-            </div>
     </div>
     <!-- end: .tray-center -->
 
@@ -121,8 +130,8 @@
       var table5 = $('#datatable5').DataTable({
           "sDom": 't<"dt-panelfooter clearfix"ip>',
           "language": {
-                "url": "<?php echo $this->request->webroot; ?>js/vendor/plugins/datatables/media/js/Spanish.json"
-            },
+              "url": "<?php echo $this->request->webroot; ?>js/vendor/plugins/datatables/media/js/Spanish.json"
+          },
           "ordering": false
       });
 
