@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
+use Cake\Network\Exception\NotFoundException;
 
 /**
  * Noticias Controller
@@ -14,6 +16,11 @@ class NoticiasController extends AppController {
 
   public $layout = 'extends';
 
+  public function beforeFilter(Event $event) {
+    parent::beforeFilter($event);
+    //$this->Auth->allow('add', 'login'. 'logout  ');
+  }
+  
   /**
    * Index method
    *
@@ -46,7 +53,8 @@ class NoticiasController extends AppController {
    */
   public function add() {
     if ($this->request->is('post')) {
-      //debug($this->request->data);
+      //debug($this->request->params);      
+      //debug($this->request->data);die;      
       $clientes = $this->request->data['clientes'];
       $notis = $this->request->data['data'];
       $tipos = $this->request->data['tipo'];
@@ -81,16 +89,18 @@ class NoticiasController extends AppController {
             $this->request->data['Noticia']['costo'] = 0;
             //debug($this->request->data['Noticia']);die;
             $noticia = $this->Noticias->patchEntity($noticia, $this->request->data['Noticia']);
+            $this->Noticias->save($noticia);
             //$noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
-            if ($this->Noticias->save($noticia)) {
-              $this->Flash->success(__('The noticia has been saved.'));
-              return $this->redirect(['action' => 'listado']);
-            } else {
-              $this->Flash->error(__('The noticia could not be saved. Please, try again.'));
-            }
+//            if ($this->Noticias->save($noticia)) {
+//              $this->Flash->success(__('The noticia has been saved.'));
+//              return $this->redirect(['action' => 'listado']);
+//            } else {
+//              $this->Flash->error(__('The noticia could not be saved. Please, try again.'));
+//            }
           }
         }
       }
+      $this->redirect(['action' => 'listado']);
     }
     //$modelMedios = new Medio;
 
@@ -199,9 +209,15 @@ class NoticiasController extends AppController {
       'order' => ['Noticias.id DESC'],
       'contain'=>['Clientes', 'Temas', 'Medios'] 
     ]);
-    //debug($noticias->toArray());die;
-    $this->set(compact('noticias')); 
-    //$this->set('_serialize', ['noticias']);
-  }
+    $dcm = TableRegistry::get('Medios')->find('all', [
+      'order' => ['Medios.nombre ASC']
+    ]);
 
+    $dcc = TableRegistry::get('Clientes')->find('all', [
+      'order' => ['Clientes.nombre ASC']
+    ]);
+    //debug($noticias->toArray());die;
+    $this->set(compact('noticias', 'dcm', 'dcc')); 
+    //$this->set('_serialize', ['noticias']);
+  }   
 }

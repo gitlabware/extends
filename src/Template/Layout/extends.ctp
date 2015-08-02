@@ -4,7 +4,7 @@
     <head>
         <!-- Meta, title, CSS, favicons, etc. -->
         <meta charset="utf-8">
-        <title>EXTENDS</title>
+        <title>EXTEND</title>
         <meta name="keywords" content="HTML5 Bootstrap 3 Admin Template UI Theme" />
         <meta name="description" content="AdminDesigns - SHARED ON THEMELOCK.COM">
         <meta name="author" content="AdminDesigns">
@@ -45,7 +45,7 @@
             <!-- Start: Header -->
             <header class="navbar navbar-fixed-top bg-info">
                 <div class="navbar-branding">
-                    <a class="navbar-brand" href="dashboard.html"> <b>EXTENDS </b> </a>
+                    <a class="navbar-brand" href="dashboard.html"> <b>EXTEND </b> </a>
                     <span id="toggle_sidemenu_l" class="glyphicons glyphicons-show_lines"></span>
                     <ul class="nav navbar-nav pull-right hidden">
                         <li>

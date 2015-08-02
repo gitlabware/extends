@@ -69,6 +69,7 @@
             </div>
 
             <!-- end .form-header section -->
+            <?= $this->Flash->render() ?>
            <?= $this->fetch('content') ?>
           </div>
         </div>
