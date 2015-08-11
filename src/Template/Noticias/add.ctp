@@ -3,7 +3,6 @@
 <link rel="stylesheet" type="text/css" href="<?= $this->request->webroot; ?>js/vendor/plugins/datepicker/css/bootstrap-datetimepicker.css">
 <link rel="stylesheet" type="text/css" href="<?= $this->request->webroot; ?>js/vendor/plugins/select2/css/core.css">
 <section id="content" class="table-layout animated fadeIn">
-
     <!-- begin: .tray-center -->
     <div class="tray tray-center pv40 ph30 va-t posr animated-delay animated-long" data-animate='["800","fadeIn"]'>
         <div class="mw1100 center-block">           
@@ -16,7 +15,7 @@
                     <div class="panel-body bg-light">
 
                         <!--<form method="post" action="" id="form-ui">-->
-                        <?php echo $this->Form->create($noticia, ['id' => 'formNoticia']); ?>                        
+                        <?php echo $this->Form->create($noticia, ['id' => 'formNoticia', 'enctype' => 'multipart/form-data']); ?>                        
                         <div class="section-divider mb40" id="spy1">
                             <span>Nueva Noticia</span>
                         </div>
@@ -186,7 +185,7 @@
                                 </div>
 
                             </div>
-
+                            <!--
                             <div class="row">
 
                                 <div class="section mb15 border-right">                                    
@@ -205,7 +204,6 @@
                                             <input type="radio" value="jpg" name="data[0][formato]">
                                             <span class="radio"></span>JPG</label>
                                     </div>
-                                    <!-- end .option-group section -->
                                 </div>
 
                             </div>
@@ -222,7 +220,25 @@
                                         </label>
                                     </div>
                                 </div>
-                            </div>                          
+                            </div>
+                            -->                          
+                            <div class="row" id="btn-arch-0">
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-system btn-block" type="button" onclick="add_ar_adj(0);">Archivo Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-primary btn-block" type="button" onclick="add_url_adj(0);">Url de Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(0);">Quitar Adjunto</button>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Text Areas -->
                             <div class="row">
@@ -364,42 +380,23 @@
 
                             </div>
 
-                            <div class="row">
-
-                                <div class="section mb15 border-right">                                    
-                                    <div class="option-group field">
-                                        &nbsp;&nbsp;&nbsp;Formato&nbsp;
-                                        <label class="option">
-                                            <input type="radio" value="pdf" name="data[1][formato]" checked>
-                                            <span class="radio"></span>PDF</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp3" name="data[1][formato]">
-                                            <span class="radio"></span>MP3</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp4" name="data[1][formato]">
-                                            <span class="radio"></span>MP4</label>
-                                        <label class="option">
-                                            <input type="radio" value="jpg" name="data[1][formato]">
-                                            <span class="radio"></span>JPG</label>
-                                    </div>
-                                    <!-- end .option-group section -->
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="row" id="btn-arch-1">
+                                <div class="col-md-3">
                                     <div class="section">
-                                        <label class="field prepend-icon append-button file">
-                                            <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="data[1][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
-                                            <input type="text" class="gui-input" id="uploader3" placeholder="">
-                                            <label class="field-icon"><i class="fa fa-upload"></i>
-                                            </label>
-                                        </label>
+                                        <button class="btn btn-xs btn-system btn-block" type="button" onclick="add_ar_adj(1);">Archivo Adjunto</button>
                                     </div>
                                 </div>
-                            </div>                          
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-primary btn-block" type="button" onclick="add_url_adj(1);">Url de Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(1);">Quitar Adjunto</button>
+                                    </div>
+                                </div>
+                            </div>                         
 
                             <!-- Text Areas -->
                             <div class="row">
@@ -541,42 +538,23 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-
-                                <div class="section mb15 border-right">                                    
-                                    <div class="option-group field">
-                                        &nbsp;&nbsp;&nbsp;Formato&nbsp;
-                                        <label class="option">
-                                            <input type="radio" value="pdf" name="data[2][formato]" checked>
-                                            <span class="radio"></span>PDF</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp3" name="data[2][formato]">
-                                            <span class="radio"></span>MP3</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp4" name="data[2][formato]">
-                                            <span class="radio"></span>MP4</label>
-                                        <label class="option">
-                                            <input type="radio" value="jpg" name="data[2][formato]">
-                                            <span class="radio"></span>JPG</label>
-                                    </div>
-                                    <!-- end .option-group section -->
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="row" id="btn-arch-2">
+                                <div class="col-md-3">
                                     <div class="section">
-                                        <label class="field prepend-icon append-button file">
-                                            <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="data[2][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
-                                            <input type="text" class="gui-input" id="uploader3" placeholder="">
-                                            <label class="field-icon"><i class="fa fa-upload"></i>
-                                            </label>
-                                        </label>
+                                        <button class="btn btn-xs btn-system btn-block" type="button" onclick="add_ar_adj(2);">Archivo Adjunto</button>
                                     </div>
                                 </div>
-                            </div>                          
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-primary btn-block" type="button" onclick="add_url_adj(2);">Url de Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(2);">Quitar Adjunto</button>
+                                    </div>
+                                </div>
+                            </div>                         
 
                             <!-- Text Areas -->
                             <div class="row">
@@ -720,39 +698,20 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-
-                                <div class="section mb15 border-right">                                    
-                                    <div class="option-group field">
-                                        &nbsp;&nbsp;&nbsp;Formato&nbsp;
-                                        <label class="option">
-                                            <input type="radio" value="pdf" name="data[3][formato]" checked>
-                                            <span class="radio"></span>PDF</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp3" name="data[3][formato]">
-                                            <span class="radio"></span>MP3</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp4" name="data[3][formato]">
-                                            <span class="radio"></span>MP4</label>
-                                        <label class="option">
-                                            <input type="radio" value="jpg" name="data[3][formato]">
-                                            <span class="radio"></span>JPG</label>
-                                    </div>
-                                    <!-- end .option-group section -->
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="row" id="btn-arch-3">
+                                <div class="col-md-3">
                                     <div class="section">
-                                        <label class="field prepend-icon append-button file">
-                                            <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="data[3][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
-                                            <input type="text" class="gui-input" id="uploader3" placeholder="">
-                                            <label class="field-icon"><i class="fa fa-upload"></i>
-                                            </label>
-                                        </label>
+                                        <button class="btn btn-xs btn-system btn-block" type="button" onclick="add_ar_adj(3);">Archivo Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-primary btn-block" type="button" onclick="add_url_adj(3);">Url de Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(3);">Quitar Adjunto</button>
                                     </div>
                                 </div>
                             </div>                          
@@ -823,7 +782,7 @@
                             </div>
 
                             <!-- Input Formats -->
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-10">
                                     <?php //debug($dcm->all()); ?>
                                     <div id="divselfue">
@@ -841,7 +800,7 @@
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>                                
-                                
+
                             </div>
                             <p>&nbsp;</p>
 
@@ -855,11 +814,11 @@
                                         </label>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                            
+
                             <div class="row">
-                              <div class="col-md-4">
+                                <div class="col-md-4">
                                     <div class="section">
                                         <label class="field prepend-icon">
                                             <input type="text" name="data[4][fuente]" id="firstname" class="gui-input" placeholder="Fuente">
@@ -879,42 +838,23 @@
                                 </div>
                             </div>
 
-                          <div class="row">
-
-                                <div class="section mb15 border-right">                                    
-                                    <div class="option-group field">
-                                        &nbsp;&nbsp;&nbsp;Formato&nbsp;
-                                        <label class="option">
-                                            <input type="radio" value="pdf" name="data[4][formato]" checked>
-                                            <span class="radio"></span>PDF</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp3" name="data[4][formato]">
-                                            <span class="radio"></span>MP3</label>
-                                        <label class="option">
-                                            <input type="radio" value="mp4" name="data[4][formato]">
-                                            <span class="radio"></span>MP4</label>
-                                        <label class="option">
-                                            <input type="radio" value="jpg" name="data[4][formato]">
-                                            <span class="radio"></span>JPG</label>
-                                    </div>
-                                    <!-- end .option-group section -->
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
+                            <div class="row" id="btn-arch-4">
+                                <div class="col-md-3">
                                     <div class="section">
-                                        <label class="field prepend-icon append-button file">
-                                            <span class="button btn-primary">Seleccionar Archivo</span>
-                                            <input type="file" class="gui-file" name="data[4][file]" id="file3" onChange="document.getElementById('uploader3').value = this.value;">
-                                            <input type="text" class="gui-input" id="uploader3" placeholder="">
-                                            <label class="field-icon"><i class="fa fa-upload"></i>
-                                            </label>
-                                        </label>
+                                        <button class="btn btn-xs btn-system btn-block" type="button" onclick="add_ar_adj(4);">Archivo Adjunto</button>
                                     </div>
                                 </div>
-                            </div>                          
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-primary btn-block" type="button" onclick="add_url_adj(4);">Url de Adjunto</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="section">
+                                        <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(4);">Quitar Adjunto</button>
+                                    </div>
+                                </div>
+                            </div>                     
 
                             <!-- Text Areas -->
                             <div class="row">
@@ -955,7 +895,6 @@
                             </div>
 
                             <div class="row">
-
                                 <div class="section mb15 border-right">                                    
                                     <div class="option-group field">
                                         &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
@@ -971,7 +910,6 @@
                                     </div>
                                     <!-- end .option-group section -->
                                 </div>
-
                             </div>     
 
                         </div>
@@ -991,32 +929,6 @@
     </div>
     <!-- end: .tray-center -->
 
-    <!-- begin: .tray-right -->
-    <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
-        <div class="animated-delay p20 pb15" data-animate='["300","fadeIn"]'>
-            <h4 class="mt5 mb20"> Extends - <span class="fs14 fw400 text-muted">Nueva Noticia</span></h4>
-
-            <ul class="fs14 list-unstyled list-spacing-10 mb10 pl5">
-                <li>
-                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
-                    <b> Autor:</b> Cristiam Herrera Daza 
-                </li>
-                <li>
-                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
-                    <b> License:</b> CC - Commercial 3.0
-                </li>
-                <li>
-                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
-                    <b> Info:</b>
-                    <a href="http://www.themeforest.net/user/AdminDesigns"> www.extends.com.bo </a>
-                </li>
-            </ul>
-        </div>
-
-
-    </aside>
-    <!-- end: .tray-right -->
-
 </section>
 <!-- End: Content -->
 </div>
@@ -1028,6 +940,83 @@
 
 </section>
 <!-- End: Content -->
+<div id="cod_arch" style="display: none;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="section">
+                <label class="field prepend-icon append-button file">
+                    <span class="button btn-system">Seleccionar Archivo</span>
+                    <input type="file" class="gui-file" name="data[0][file]" id="file3" required="true" onchange="var valor = $(this).val();
+                          $('#up-' + $(this).prop('id')).val(valor);">
+                    <input type="text" class="gui-input" id="uploader3" placeholder="">
+                    <label class="field-icon"><i class="fa fa-upload"></i>
+                    </label>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cod_arch_u" style="display: none;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="section">
+                <label class="field prepend-icon">
+                    <input type="text" class="gui-input eynar" placeholder="Ingrese la Url del archivo" required="true">
+                    <label for="firstname" class="field-icon"><i class="fa fa-link"></i>
+                    </label>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+  var vec_file = [];
+  vec_file[0] = 0;
+  vec_file[1] = 0;
+  vec_file[2] = 0;
+  vec_file[3] = 0;
+  vec_file[4] = 0;
+  function add_ar_adj(numero) {
+
+      if (vec_file[numero] < 1) {
+          vec_file[numero]++;
+          $('#cod_arch div:first').prop('id', 'darchivo-' + numero + '-' + vec_file[numero]);
+          $('#cod_arch input[type=file]').each(function (i, val) {
+              $(val).prop('name', 'data[' + numero + '][adjuntos][' + vec_file[numero] + '][archivo]');
+              $(val).attr('id', 'file-' + numero + '-' + vec_file[numero]);
+          });
+          $('#cod_arch input[type=text]').each(function (i, val) {
+              $(val).prop('id', 'up-file-' + numero + '-' + vec_file[numero]);
+          });
+          var html_arch = $('#cod_arch').html();
+          $('#btn-arch-' + (numero)).after(html_arch);
+      }
+  }
+
+  function add_url_adj(numero) {
+      if (vec_file[numero] < 1) {
+          vec_file[numero]++;
+          $('#cod_arch_u div:first').prop('id', 'darchivo-' + numero + '-' + vec_file[numero]);
+          $('#cod_arch_u input[type=text]').each(function (i, val) {
+              $(val).prop('name', 'data[' + numero + '][adjuntos][' + vec_file[numero] + '][url]');
+              $(val).attr('id', 'file-url-' + numero + '-' + vec_file[numero]);
+          });
+          var html_arch = $('#cod_arch_u').html();
+          $('#btn-arch-' + (numero)).after(html_arch);
+      }
+  }
+
+  function quita_ar_adj(numero) {
+      if (vec_file[numero] > 0) {
+          $('#darchivo-' + numero + '-' + vec_file[numero]).remove();
+          vec_file[numero]--;
+      }
+  }
+
+</script>
 
 <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/utility/utility.js"></script>
 <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/main.js"></script>
@@ -1042,42 +1031,46 @@
 <?php echo $this->Html->script('cambiaColorForm', ['block' => 'scriptjs']); ?>
 <script>
 // Init DateRange plugin
-                                              $('#datetimepicker1, #datetimepicker2').datetimepicker({
-                                                  pickTime: false,
-                                                  format: 'YYYY-MM-DD'
-                                              });
+  $('#datetimepicker1, #datetimepicker2').datetimepicker({
+      pickTime: false,
+      format: 'YYYY-MM-DD'
+  });
 
-                                              $('#multiselect2').multiselect({
-                                                  includeSelectAllOption: true
-                                              });
+  $('#multiselect2').multiselect({
+      includeSelectAllOption: true
+  });
 
-                                              // Init Select2 - Basic Multiple
-                                              $(".select2-multiple").select2({
-                                                  placeholder: "Seleccione cliente",
-                                                  allowClear: true
-                                              });
+  // Init Select2 - Basic Multiple
+  $(".select2-multiple").select2({
+      placeholder: "Seleccione cliente",
+      allowClear: true
+  });
 
-                                              function muestraImpreso() {
-                                                  $("#formImpreso").toggle('slow');
-                                              }
-                                              function muestraDigital() {
-                                                  $("#formDigital").toggle('slow');
-                                              }
-                                              function muestraRadio() {
-                                                  $("#formRadio").toggle('slow');
-                                              }
-                                              function muestraTv() {
-                                                  $("#formTv").toggle('slow');
-                                              }
-                                              function muestraFuente() {
-                                                  $("#formFuente").toggle('slow');
-                                              }
+  function muestraImpreso() {
+      $("#formImpreso").toggle('slow');
+  }
+  function muestraDigital() {
+      $("#formDigital").toggle('slow');
+  }
+  function muestraRadio() {
+      $("#formRadio").toggle('slow');
+  }
+  function muestraTv() {
+      $("#formTv").toggle('slow');
+  }
+  function muestraFuente() {
+      $("#formFuente").toggle('slow');
+  }
+
+
 </script>
 <script>
   jQuery(document).ready(function () {
       // binds form submission and fields to the validation engine
       jQuery("#formNoticia").validationEngine();
-  });
+      $('#formNoticia').submit(function () {
 
+      });
+  });
 </script>
 <!-- END: PAGE SCRIPTS -->

@@ -1,14 +1,14 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\NoticiasTable;
+use App\Model\Table\AdjuntosTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\NoticiasTable Test Case
+ * App\Model\Table\AdjuntosTable Test Case
  */
-class NoticiasTableTest extends TestCase
+class AdjuntosTableTest extends TestCase
 {
 
     /**
@@ -17,10 +17,11 @@ class NoticiasTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
+        'app.adjuntos',
         'app.noticias',
-        'app.medios',
         'app.temas',
-        'app.clientes'
+        'app.clientes',
+        'app.medios'
     ];
 
     /**
@@ -31,8 +32,8 @@ class NoticiasTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Noticias') ? [] : ['className' => 'App\Model\Table\NoticiasTable'];
-        $this->Noticias = TableRegistry::get('Noticias', $config);
+        $config = TableRegistry::exists('Adjuntos') ? [] : ['className' => 'App\Model\Table\AdjuntosTable'];
+        $this->Adjuntos = TableRegistry::get('Adjuntos', $config);
     }
 
     /**
@@ -42,7 +43,7 @@ class NoticiasTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Noticias);
+        unset($this->Adjuntos);
 
         parent::tearDown();
     }

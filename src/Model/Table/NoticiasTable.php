@@ -10,9 +10,9 @@ use Cake\Validation\Validator;
 /**
  * Noticias Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Medios
  * @property \Cake\ORM\Association\BelongsTo $Temas
  * @property \Cake\ORM\Association\BelongsTo $Clientes
+ * @property \Cake\ORM\Association\BelongsTo $Medios
  */
 class NoticiasTable extends Table
 {
@@ -29,15 +29,15 @@ class NoticiasTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Medios', [
-            'foreignKey' => 'medio_id'
-        ]);
         $this->belongsTo('Temas', [
             'foreignKey' => 'tema_id'
         ]);
         $this->belongsTo('Clientes', [
             'foreignKey' => 'cliente_id',
             'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Medios', [
+            'foreignKey' => 'medio_id'
         ]);
     }
 
@@ -58,8 +58,7 @@ class NoticiasTable extends Table
             
         $validator
             ->add('fecha', 'valid', ['rule' => 'date'])
-            ->requirePresence('fecha', 'create')
-            ->notEmpty('fecha');
+            ->allowEmpty('fecha');
             
         $validator
             ->allowEmpty('notaprensa');
@@ -104,14 +103,15 @@ class NoticiasTable extends Table
             ->allowEmpty('descripcion');
             
         $validator
-            ->allowEmpty('tendencia');
+            ->requirePresence('tendencia', 'create')
+            ->notEmpty('tendencia');
             
         $validator
-            ->allowEmpty('longitud');
+            ->requirePresence('longitud', 'create')
+            ->notEmpty('longitud');
             
         $validator
-            ->requirePresence('costo', 'create')
-            ->notEmpty('costo');
+            ->allowEmpty('costo');
 
         return $validator;
     }
@@ -125,9 +125,9 @@ class NoticiasTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['medio_id'], 'Medios'));
         $rules->add($rules->existsIn(['tema_id'], 'Temas'));
         $rules->add($rules->existsIn(['cliente_id'], 'Clientes'));
+        $rules->add($rules->existsIn(['medio_id'], 'Medios'));
         return $rules;
     }
 }

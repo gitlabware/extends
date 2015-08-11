@@ -15,9 +15,10 @@ class Noticia extends Entity
      * @var array
      */
     protected $_accessible = [
-        'medio_id' => true,
         'tema_id' => true,
+        'cliente_id' => true,
         'tipo' => true,
+        'medio_id' => true,
         'fecha' => true,
         'notaprensa' => true,
         'codigo' => true,
@@ -36,8 +37,8 @@ class Noticia extends Entity
         'tendencia' => true,
         'longitud' => true,
         'costo' => true,
-        'cliente_id' => true,
         'medio' => true,
         'tema' => true,
+        'cliente' => true,
     ];
 }

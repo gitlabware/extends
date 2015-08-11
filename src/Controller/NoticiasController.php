@@ -6,6 +6,7 @@ use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Network\Exception\NotFoundException;
+use Cake\Utility\Text;
 
 /**
  * Noticias Controller
@@ -20,7 +21,7 @@ class NoticiasController extends AppController {
     parent::beforeFilter($event);
     //$this->Auth->allow('add', 'login'. 'logout  ');
   }
-  
+
   /**
    * Index method
    *
@@ -54,7 +55,8 @@ class NoticiasController extends AppController {
   public function add() {
     if ($this->request->is('post')) {
       //debug($this->request->params);      
-      //debug($this->request->data);die;      
+      /*debug($this->request->data);
+      die;*/
       $clientes = $this->request->data['clientes'];
       $notis = $this->request->data['data'];
       $tipos = $this->request->data['tipo'];
@@ -63,7 +65,7 @@ class NoticiasController extends AppController {
       foreach ($clientes as $c) {
         //debug($c);
         //$this->request->data['Noticia']['fecha']=$this->request->data['fecha'];
-        foreach ($notis as $n) {
+        foreach ($notis as $key => $n) {
           //debug($n);
           if ($n['medio_id'] != 0) {
             $noticia = $this->Noticias->newEntity();
@@ -89,7 +91,11 @@ class NoticiasController extends AppController {
             $this->request->data['Noticia']['costo'] = 0;
             //debug($this->request->data['Noticia']);die;
             $noticia = $this->Noticias->patchEntity($noticia, $this->request->data['Noticia']);
-            $this->Noticias->save($noticia);
+            $resnot = $this->Noticias->save($noticia);
+            $this->guarda_adjuntos($key, $resnot->id);
+            
+            
+
             //$noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
 //            if ($this->Noticias->save($noticia)) {
 //              $this->Flash->success(__('The noticia has been saved.'));
@@ -109,33 +115,33 @@ class NoticiasController extends AppController {
       'conditions' => ['Medios.tipo' => 'Impreso'],
       'order' => ['Medios.nombre ASC']
     ]);
-    
+
     //debug($dcm->toArray());
-    
+
     $dcmd = $medios
       ->find()
       ->where(['tipo' => 'Digital'])
-      ->order(['nombre'=>'ASC'])
+      ->order(['nombre' => 'ASC'])
       ->toArray();
-    
+
     $dcmr = $medios
       ->find()
       ->where(['tipo' => 'Radio'])
-      ->order(['nombre'=>'ASC'])
+      ->order(['nombre' => 'ASC'])
       ->toArray();
-    
+
     $dcmt = $medios
       ->find()
       ->where(['tipo' => 'Tv'])
-      ->order(['nombre'=>'ASC'])
+      ->order(['nombre' => 'ASC'])
       ->toArray();
-    
+
     $dcmf = $medios
       ->find()
       ->where(['tipo' => 'Fuente'])
-      ->order(['nombre'=>'ASC'])
+      ->order(['nombre' => 'ASC'])
       ->toArray();
-    
+
     //debug($dcmd);die;
 
     $dct = TableRegistry::get('Temas')->find('all', [
@@ -150,8 +156,43 @@ class NoticiasController extends AppController {
     //$dcm = $this->Medios->find('all');
     //debug($dct->toArray());die();
     $noticia = $this->Noticias->newEntity();
-    $this->set(compact('noticia', 'dcm', 'dct', 'dcc', 'dcmd','dcmr', 'dcmt', 'dcmf'));
+    $this->set(compact('noticia', 'dcm', 'dct', 'dcc', 'dcmd', 'dcmr', 'dcmt', 'dcmf'));
     $this->set('_serialize', ['noticia']);
+  }
+
+  public function guarda_adjuntos($key = null, $idNoticia = null) {
+    $da = $this->request->data['data'][$key];
+    if (!empty($da['adjuntos'])) {
+      foreach ($da['adjuntos'] as $pr) {
+        if (!empty($pr['archivo'])) {
+          $archivo = $pr['archivo'];
+          $extension = split('.', $archivo['name']);
+          $ext = end($extension);
+          if ($archivo['error'] === UPLOAD_ERR_OK) {
+            $nombre = Text::uuid();
+            if (move_uploaded_file($archivo['tmp_name'], WWW_ROOT . 'adjuntos' . DS . $nombre . '.' . $ext)) {
+              $nombre_archivo = $nombre . '.' . $ext;
+              $adjuntos = TableRegistry::get('Adjuntos');
+              $adjunto = $adjuntos->newEntity();
+              $d_adjunto['url_int'] = $nombre_archivo;
+              $d_adjunto['noticia_id'] = $idNoticia;
+              $adjunto = $adjuntos->patchEntity($adjunto, $d_adjunto);
+              $adjuntos->save($adjunto);
+            }
+          } else {
+            /*$this->Flash->msgerror('Ocurrio un error al cargar el adjunto '.$archivo['name']);
+            $this->redirect($this->referer());*/
+          }
+        } else {
+          $adjuntos = TableRegistry::get('Adjuntos');
+          $adjunto = $adjuntos->newEntity();
+          $d_adjunto['url_ext'] = $pr['url'];
+          $d_adjunto['noticia_id'] = $idNoticia;
+          $adjunto = $adjuntos->patchEntity($adjunto, $d_adjunto);
+          $adjuntos->save($adjunto);
+        }
+      }
+    }
   }
 
   /**
@@ -207,7 +248,7 @@ class NoticiasController extends AppController {
   public function listado() {
     $noticias = TableRegistry::get('Noticias')->find('all', [
       'order' => ['Noticias.id DESC'],
-      'contain'=>['Clientes', 'Temas', 'Medios'] 
+      'contain' => ['Clientes', 'Temas', 'Medios']
     ]);
     $dcm = TableRegistry::get('Medios')->find('all', [
       'order' => ['Medios.nombre ASC']
@@ -217,7 +258,8 @@ class NoticiasController extends AppController {
       'order' => ['Clientes.nombre ASC']
     ]);
     //debug($noticias->toArray());die;
-    $this->set(compact('noticias', 'dcm', 'dcc')); 
+    $this->set(compact('noticias', 'dcm', 'dcc'));
     //$this->set('_serialize', ['noticias']);
-  }   
+  }
+
 }

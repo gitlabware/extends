@@ -140,12 +140,12 @@ class CreateNoticias extends AbstractMigration
             'null' => true,
         ]);
         
-        $table->addColumn('created', 'datetime', [
+        $table->addColumn('created', 'date', [
             'default' => null,
             'null' => false,
         ]);
         
-        $table->addColumn('modified', 'datetime', [
+        $table->addColumn('modified', 'date', [
             'default' => null,
             'null' => false,
         ]);                

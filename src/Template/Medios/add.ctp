@@ -146,31 +146,6 @@
             </div>
         </div>
     </div>
-    <!-- begin: .tray-right -->
-    <aside class="tray tray-right tray290 va-t pn" data-tray-height="match">
-        <div class="animated-delay p20 pb15" data-animate='["300","fadeIn"]'>
-            <h4 class="mt5 mb20"> Extends - <span class="fs14 fw400 text-muted">Nueva Noticia</span></h4>
-
-            <ul class="fs14 list-unstyled list-spacing-10 mb10 pl5">
-                <li>
-                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
-                    <b> Autor:</b> Cristiam Herrera Daza 
-                </li>
-                <li>
-                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
-                    <b> License:</b> CC - Commercial 3.0
-                </li>
-                <li>
-                    <i class="fa fa-exclamation-circle text-warning fa-lg pr10"></i>
-                    <b> Info:</b>
-                    <a href="http://www.themeforest.net/user/AdminDesigns"> www.extends.com.bo </a>
-                </li>
-            </ul>
-        </div>
-
-
-    </aside>
-    <!-- end: .tray-right -->
 </section>
 <!-- Select2 Plugin Plugin -->
 <?php echo $this->Html->script('cambiaColorForm', ['block' => 'scriptjs']); ?>
