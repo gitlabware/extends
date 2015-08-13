@@ -5,29 +5,32 @@
             <url>file:/var/www/html/extends/src/Template/Noticias/add.ctp</url>
             <bookmark id="1">
                 <name/>
-                <line>223</line>
+                <line>222</line>
                 <key/>
             </bookmark>
             <bookmark id="3">
                 <name/>
-                <line>365</line>
+                <line>382</line>
                 <key/>
             </bookmark>
             <bookmark id="2">
                 <name/>
-                <line>542</line>
+                <line>540</line>
                 <key/>
             </bookmark>
             <bookmark id="4">
                 <name/>
-                <line>821</line>
+                <line>781</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/var/www/html/extends/src/Template/Noticias/add.ctp</file>
+            <file>file:/var/www/html/extends/src/Controller/NoticiasController.php</file>
             <file>file:/var/www/html/extends/src/Template/Noticias/listado.ctp</file>
+            <file>file:/var/www/html/extends/src/Template/Noticias/edit.ctp</file>
         </group>
     </open-files>
 </project-private>

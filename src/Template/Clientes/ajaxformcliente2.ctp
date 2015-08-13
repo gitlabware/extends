@@ -2,12 +2,12 @@
     <div class="panel">
         <div class="panel-heading">
             <span class="panel-title">
-                <i class="fa fa-rocket"></i>Nuevo Medio <b><?php echo $tipomedio; ?></b></span>
+                <i class="fa fa-rocket"></i>Nuevo Cliente </span>
         </div>
         <!-- end .panel-heading section -->
 
         <!--<form method="post" action="/" id="comment">-->
-        <?php echo $this->Form->create($medio, ['id' => 'formMedio']); ?>
+        <?php echo $this->Form->create($cliente, ['id' => 'formCliente']); ?>
         <div class="panel-body p25">
             <div class="section row">                    
 
@@ -15,46 +15,24 @@
                     <label for="lastname" class="field prepend-icon">
                         <input type="text" name="nombre" id="lastname" class="gui-input" placeholder="Nombre" autofocus>
                         <label for="lastname" class="field-icon">
-                            <i class="glyphicons glyphicons-notes"></i>
-                        </label>
-                    </label>
-                </div>
-                <!-- end section -->
-
-                <div class="col-md-6">
-                    <label for="firstname" class="field prepend-icon"> 
-                        <?php //debug($medio);?>
-                        <input type="text" id="disabledInput" name="vtipo" id="firstname" class="form-control" value="<?= $tipomedio; ?>" disabled="">
-                        <?php echo $this->Form->hidden('tipo', ['value' => "$tipomedio"]); ?>                        
-                        <label for="firstname" class="field-icon">
                             <i class="fa fa-user"></i>
                         </label>
                     </label>
                 </div>
                 <!-- end section -->
 
-            </div>
-            <!-- end section row section -->
-
-            <div class="section row">
                 <div class="col-md-6">
-                    <?php //debug($cdd); ?>
-                    <?php echo $this->Form->select('ciudad', $cdd, ['class' => 'form-control']); ?>                        
-                </div>
-                <!-- end section -->
-
-                <div class="col-md-6">
-                    <label for="website" class="field prepend-icon">
-                        <input type="text" name="url" id="lastname" class="gui-input" placeholder="Web">
-                        <label for="website" class="field-icon">
-                            <i class="fa fa-globe"></i>
+                    <label for="firstname" class="field prepend-icon">
+                        <input type="text" id="disabledInput" name="telefono" id="firstname" class="form-control" placeholder="Telefono">                        
+                        <label for="firstname" class="field-icon">
+                            <i class="fa fa-phone"></i>
                         </label>
                     </label>
                 </div>
                 <!-- end section -->
 
             </div>
-            <!-- end section row section -->
+            <!-- end section row section -->          
 
             <div class="section">
                 <label for="comment" class="field prepend-icon">
@@ -70,8 +48,8 @@
         <!-- end .form-body section -->
 
         <div class="panel-footer">
-            <button type="submit" class="button btn-primary">Guardar Medio</button>
-            <button type="submit" class="button btn-dark" onclick="cerrarModal()">Cerrar</button>
+            <button type="submit" class="button btn-primary">Guardar Cliente</button>
+            <!--<button type="submit" class="button btn-dark" onclick="cerrarModal()">Cerrar</button>-->
         </div>
         <!-- end .form-footer section -->
         </form>
@@ -83,7 +61,7 @@
     $("#modal-principal").modal('hide');  
   }
   
-  $("#formMedio").submit(function (e)
+  $("#formCliente").submit(function (e)
   {
       var postData = $(this).serializeArray();
       var formURL = $(this).attr("action");
@@ -97,16 +75,22 @@
                    },*/
                   complete: function (XMLHttpRequest, textStatus) {
                       //alert('despues de enviar');
+                      //$("#modal-principal").modal('hide');  
+//                      $('#modal-principal').on('hidden.bs.modal', function () {
+//                          //console.log('El modal se cerro');                          
+//                          $("#divMulClientes").load("<?php //echo $this->url->build(['action'=>'ajaxmulclientes']); ?>");
+//                      });
+
+                      
                   },
                   success: function (data, textStatus, jqXHR)
                   {
                       //data: return data from server
                       //$("#parte").html(data);
                       //console.log('formulario enviado');
-                      //$('#formMedio').modal('hide'); 
-                      $("#<?= $div; ?>").load("<?php echo $this->url->build(['action'=>'ajaxactselect', $tipomedio,$campo]); ?>/"+data.id);
-                      $("#modal-principal").modal('hide');  
-
+                      //alert(data.id);
+                      $("#<?= $div ?>").load('<?= $this->url->build(['action' => 'ajaxclientes']) ?>/'+data.id);
+                      cerrarModal();  
                   },
                   error: function (jqXHR, textStatus, errorThrown)
                   {

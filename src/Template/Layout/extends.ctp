@@ -20,7 +20,7 @@
         <!-- icons -->
         <link rel="stylesheet" type="text/css" href="<?php echo $this->request->webroot; ?>/fonts/glyphicons-pro/glyphicons-pro.css">
         <link rel="stylesheet" href="<?php echo $this->request->webroot; ?>css/validationEngine.jquery.css" type="text/css"/>
-
+        <?= $this->fetch('addcss') ?>
         <!-- Favicon -->
         <link rel="shortcut icon" href="<?php echo $this->request->webroot; ?>img/favicon.ico">
 

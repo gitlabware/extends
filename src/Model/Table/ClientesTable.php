@@ -24,7 +24,7 @@ class ClientesTable extends Table
     public function initialize(array $config)
     {
         $this->table('clientes');
-        $this->displayField('id');
+        $this->displayField('nuevo');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->hasMany('Noticias', [

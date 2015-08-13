@@ -99,34 +99,34 @@ class TemasController extends AppController {
     return $this->redirect(['action' => 'index']);
   }
 
-  public function ajaxformtema($div = null) {
+  public function ajaxformtema($div = null,$campo = null) {
     
     $this->layout = 'ajax';
     $tema = $this->Temas->newEntity();
     if ($this->request->is('post')) {
       //debug($this->request->data);die;
       $tema = $this->Temas->patchEntity($tema, $this->request->data);
-      if ($this->Temas->save($tema)) {
-        //$this->Flash->success(__('The tema has been saved.'));
-        //return $this->redirect(['action' => 'index']);
-      } else {
-        //$this->Flash->error(__('The tema could not be saved. Please, try again.'));
-      }
+      $resultado = $this->Temas->save($tema);
+      $idTema = $resultado->id;
+      $this->autoRender = false;
+      $this->response->type('json');
+      $json = json_encode(array('id' => $idTema));
+      $this->response->body($json);
     }
-    $this->set(compact('tema', 'div'));
+    $this->set(compact('tema', 'div','campo'));
     $this->set('_serialize', ['tema']);
     
   }
   
-  public function ajaxactselect(){
+  public function ajaxactselect($campo = null,$idTema = null){
     $this->layout = 'ajax';
     //$dcm = TableRegistry::get('Medios')->find();    
     $temas = TableRegistry::get('Temas');
-    $dct = $temas->find('all', [
-      //'conditions' => ['Medios.tipo' => 'Impreso'],
+    $temas->displayField('nombre');
+    $dct = $temas->find('list', [
       'order'=>['Temas.nombre ASC']
     ]);
-    $this->set(compact('dct'));
+    $this->set(compact('dct','campo','idTema'));
     //echo $tipo;
     //debug($articles);
   }

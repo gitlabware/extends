@@ -211,7 +211,7 @@
                                           <td><?= $n['tendencia']; ?></td>
                                           <td>
                                               <div class="btn-group">
-                                                  <a href="#<? // $this->url->build(['action'=>'edit', $n['id']]);?>" type="button" class="btn btn-info">
+                                                  <a href="<?php echo $this->Url->build(['action'=>'edit', $n['id']]);?>" type="button" class="btn btn-info">
                                                       <i class="fa fa-edit"></i>
                                                   </a>
                                               </div>  
@@ -221,9 +221,7 @@
                                                   </a>
                                               </div>   
                                               <div class="btn-group">
-                                                  <a href="#<? // $this->url->build(['action'=>'edit', $n['id']]);?>" type="button" class="btn btn-danger">
-                                                      <i class="fa fa-times"></i>
-                                                  </a>
+                                                  <?= $this->Html->link('<i class="fa fa-times"></i>', ['action' => 'delete', $n['id']], ['class' => 'btn btn-danger','escape' => false,'confirm' => __('Estas seguro de eliminar # {0}?', $n['id'])]) ?>
                                               </div>                                                 
                                           </td>
                                       </tr>

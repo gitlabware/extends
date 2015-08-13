@@ -54,7 +54,8 @@
                             <div class="col-md-8">
                                 <div class="section">
                                     <label class="field prepend-icon">
-                                        <input type="text" name="notapresa" id="firstname" class="gui-input" placeholder="Nota de Prensa">
+                                         
+                                        <input type="text" name="notaprensa" id="firstname" class="gui-input" placeholder="Nota de Prensa">
                                         <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                         </label>
                                     </label>

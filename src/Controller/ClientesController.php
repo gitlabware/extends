@@ -13,6 +13,7 @@ use Cake\ORM\TableRegistry;
 class ClientesController extends AppController {
 
   public $layout = 'extends';
+
   /**
    * Index method
    *
@@ -46,7 +47,8 @@ class ClientesController extends AppController {
   public function add() {
     $cliente = $this->Clientes->newEntity();
     if ($this->request->is('post')) {
-      debug($this->request->data);die();
+      debug($this->request->data);
+      die();
       $cliente = $this->Clientes->patchEntity($cliente, $this->request->data);
       if ($this->Clientes->save($cliente)) {
         $this->Flash->success(__('The cliente has been saved.'));
@@ -102,7 +104,7 @@ class ClientesController extends AppController {
   }
 
   public function ajaxformcliente() {
-    
+
     $this->layout = 'ajax';
     $cliente = $this->Clientes->newEntity();
 
@@ -110,7 +112,7 @@ class ClientesController extends AppController {
       $cliente = $this->Clientes->patchEntity($cliente, $this->request->data);
       if ($this->Clientes->save($cliente)) {
         //$this->Flash->success(__('The cliente has been saved.'));
-        $this->redirect(['controller'=>'Noticias', 'action' => 'add']);
+        $this->redirect(['controller' => 'Noticias', 'action' => 'add']);
       } else {
         //$this->Flash->error(__('The cliente could not be saved. Please, try again.'));
       }
@@ -118,6 +120,34 @@ class ClientesController extends AppController {
 
     $this->set(compact('cliente'));
     $this->set('_serialize', ['cliente']);
+  }
+
+  public function ajaxformcliente2($div = null) {
+
+    $this->layout = 'ajax';
+    $cliente = $this->Clientes->newEntity();
+
+    if ($this->request->is('post')) {
+      $cliente = $this->Clientes->patchEntity($cliente, $this->request->data);
+      $resultado = $this->Clientes->save($cliente);
+      $idCliente = $resultado->id;
+      $this->autoRender = false;
+      $this->response->type('json');
+
+      $json = json_encode(array('id' => $idCliente));
+      $this->response->body($json);
+      //exit;
+    }
+
+    $this->set(compact('cliente', 'div'));
+    $this->set('_serialize', ['cliente']);
+  }
+
+  public function ajaxclientes($idCliente = null) {
+    $this->layout = 'ajax';
+    $this->Clientes->displayField('nombre');
+    $l_clientes = $this->Clientes->find('list')->order(['nombre' => 'ASC']);
+    $this->set(compact('l_clientes','idCliente'));
   }
 
   public function ajaxmulclientes() {

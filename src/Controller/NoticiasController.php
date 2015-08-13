@@ -55,8 +55,8 @@ class NoticiasController extends AppController {
   public function add() {
     if ($this->request->is('post')) {
       //debug($this->request->params);      
-      /*debug($this->request->data);
-      die;*/
+      /* debug($this->request->data);
+        die; */
       $clientes = $this->request->data['clientes'];
       $notis = $this->request->data['data'];
       $tipos = $this->request->data['tipo'];
@@ -93,8 +93,8 @@ class NoticiasController extends AppController {
             $noticia = $this->Noticias->patchEntity($noticia, $this->request->data['Noticia']);
             $resnot = $this->Noticias->save($noticia);
             $this->guarda_adjuntos($key, $resnot->id);
-            
-            
+
+
 
             //$noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
 //            if ($this->Noticias->save($noticia)) {
@@ -161,12 +161,14 @@ class NoticiasController extends AppController {
   }
 
   public function guarda_adjuntos($key = null, $idNoticia = null) {
+    $adjuntos = TableRegistry::get('Adjuntos');
+    $adjuntos->deleteAll(['noticia_id' => $idNoticia]);
     $da = $this->request->data['data'][$key];
     if (!empty($da['adjuntos'])) {
       foreach ($da['adjuntos'] as $pr) {
         if (!empty($pr['archivo'])) {
           $archivo = $pr['archivo'];
-          $extension = split('.', $archivo['name']);
+          $extension = explode('.', $archivo['name']);
           $ext = end($extension);
           if ($archivo['error'] === UPLOAD_ERR_OK) {
             $nombre = Text::uuid();
@@ -180,9 +182,16 @@ class NoticiasController extends AppController {
               $adjuntos->save($adjunto);
             }
           } else {
-            /*$this->Flash->msgerror('Ocurrio un error al cargar el adjunto '.$archivo['name']);
-            $this->redirect($this->referer());*/
+            /* $this->Flash->msgerror('Ocurrio un error al cargar el adjunto '.$archivo['name']);
+              $this->redirect($this->referer()); */
           }
+        } elseif (!empty($pr['url_int'])) {
+          $adjuntos = TableRegistry::get('Adjuntos');
+          $adjunto = $adjuntos->newEntity();
+          $d_adjunto['url_int'] = $pr['url_int'];
+          $d_adjunto['noticia_id'] = $idNoticia;
+          $adjunto = $adjuntos->patchEntity($adjunto, $d_adjunto);
+          $adjuntos->save($adjunto);
         } else {
           $adjuntos = TableRegistry::get('Adjuntos');
           $adjunto = $adjuntos->newEntity();
@@ -203,19 +212,81 @@ class NoticiasController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function edit($id = null) {
+
     $noticia = $this->Noticias->get($id, [
       'contain' => []
     ]);
     if ($this->request->is(['patch', 'post', 'put'])) {
+        //debug($this->request->data);exit;
       $noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
       if ($this->Noticias->save($noticia)) {
+        $tipo = $this->request->data['tipo_id'];
+        if ($tipo == "Impreso") {
+          $key = 0;
+        } elseif ($tipo == "Digital") {
+          $key = 1;
+        } elseif ($tipo == "Radio") {
+          $key = 2;
+        } elseif ($tipo == "Tv") {
+          $key = 3;
+        } elseif ($tipo == "Fuente") {
+          $key = 4;
+        }
+        
+        $this->guarda_adjuntos($key, $id);
         $this->Flash->success(__('The noticia has been saved.'));
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'listado']);
       } else {
         $this->Flash->error(__('The noticia could not be saved. Please, try again.'));
       }
     }
-    $this->set(compact('noticia'));
+
+    //debug($noticia->toArray());exit;
+    $clientes = TableRegistry::get('Clientes');
+    $adjuntos = TableRegistry::get('Adjuntos');
+    $adjuntos_n = $adjuntos->find()->where(['noticia_id' => $id])->toArray();
+
+    $l_clientes = $clientes->find('list', ['keyField' => 'id', 'valueField' => 'nombre']);
+
+    $medios = TableRegistry::get('Medios');
+    $medios->displayField('nombre_ciudad');
+    $dcm = $medios
+      ->find('list')
+      ->where(['tipo' => 'Impreso'])
+      ->order(['nombre' => 'ASC'])
+      ->toArray();
+
+    $dcmd = $medios
+      ->find('list')
+      ->where(['tipo' => 'Digital'])
+      ->order(['nombre' => 'ASC'])
+      ->toArray();
+
+    $dcmr = $medios
+      ->find('list')
+      ->where(['tipo' => 'Radio'])
+      ->order(['nombre' => 'ASC'])
+      ->toArray();
+
+    $dcmt = $medios
+      ->find('list')
+      ->where(['tipo' => 'Tv'])
+      ->order(['nombre' => 'ASC'])
+      ->toArray();
+
+    $dcmf = $medios
+      ->find('list')
+      ->where(['tipo' => 'Fuente'])
+      ->order(['nombre' => 'ASC'])
+      ->toArray();
+
+    //debug($dcmd);die;
+    $temas = TableRegistry::get('Temas');
+    $temas->displayField('nombre');
+    $dct = $temas->find('list')->order(['nombre' => 'ASC']);
+    /* debug($l_clientes->toArray());
+      exit; */
+    $this->set(compact('noticia', 'l_clientes', 'dcmf', 'dcmt', 'dcmr', 'dcmd', 'dcm', 'dct', 'adjuntos_n'));
     $this->set('_serialize', ['noticia']);
   }
 
@@ -227,14 +298,13 @@ class NoticiasController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function delete($id = null) {
-    $this->request->allowMethod(['post', 'delete']);
     $noticia = $this->Noticias->get($id);
     if ($this->Noticias->delete($noticia)) {
-      return $this->Flash->success(__('The noticia has been deleted.'));
+      $this->Flash->success(__('The noticia has been deleted.'));
     } else {
       $this->Flash->error(__('The noticia could not be deleted. Please, try again.'));
     }
-    return $this->redirect(['action' => 'index']);
+    return $this->redirect(['action' => 'listado']);
   }
 
   public function login() {

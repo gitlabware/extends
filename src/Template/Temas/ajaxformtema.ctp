@@ -64,18 +64,12 @@
                    alert("antes de enviar");
                    },*/
                   complete: function (XMLHttpRequest, textStatus) {
-                      $("#modal-principal").modal('hide');
-                      $('#modal-principal').on('hidden.bs.modal', function () {                         
-                          $("#divselimptemai").load("<?php echo $this->url->build(['action'=>'ajaxactselect']);  ?>");
-                          $("#divselimptemad").load("<?php echo $this->url->build(['action'=>'ajaxactselect']);  ?>");
-                          $("#divselimptemar").load("<?php echo $this->url->build(['action'=>'ajaxactselect']);  ?>");
-                          $("#divselimptemat").load("<?php echo $this->url->build(['action'=>'ajaxactselect']);  ?>");
-                          $("#divselimptemaf").load("<?php echo $this->url->build(['action'=>'ajaxactselect']);  ?>");
-                      });
+                    
                   },
                   success: function (data, textStatus, jqXHR)
                   {
-
+                    $("#divselimptemai").load("<?php echo $this->url->build(['action'=>'ajaxactselect',$campo]);  ?>/"+data.id);
+                    $("#modal-principal").modal('hide');
                   },
                   error: function (jqXHR, textStatus, errorThrown)
                   {

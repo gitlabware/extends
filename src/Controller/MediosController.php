@@ -103,34 +103,33 @@ class MediosController extends AppController {
     return $this->redirect(['action' => 'index']);
   }
 
-  public function ajaxformedio($tipomedio = null, $div = null) {
+  public function ajaxformedio($tipomedio = null, $div = null,$campo = null) {
     $this->layout = 'ajax';
     $medio = $this->Medios->newEntity();
 
     if ($this->request->is('post')) {
       //debug($this->request->data);die;
       $medio = $this->Medios->patchEntity($medio, $this->request->data);
-      if ($this->Medios->save($medio)) {
-        //$this->Flash->success(__('The medio has been saved.'));
-        //return $this->redirect(['action' => 'index']);
-      } else {
-        //$this->Flash->error(__('The medio could not be saved. Please, try again.'));
-      }
+      $resultado = $this->Medios->save($medio);
+      
+      $idMedio = $resultado->id;
+      $this->autoRender = false;
+      $this->response->type('json');
+      $json = json_encode(array('id' => $idMedio));
+      $this->response->body($json);
     }
     $cdd = ['La Paz' => 'La Paz', 'Cochabamba' => 'Cochabamba', 'Santa Cruz' => 'Santa Cruz', 'Pando' => 'Pando', 'Beni' => 'Beni', 'Oruro' => 'Oruro', 'Potosi' => 'Potosi', 'Tarija' => 'Tarija'];
-    $this->set(compact('medio', 'tipomedio', 'cdd', 'div'));
+    $this->set(compact('medio', 'tipomedio', 'cdd', 'div','campo'));
     $this->set('_serialize', ['medio']);
   }
 
-  public function ajaxactselect($tipo = null) {
+  public function ajaxactselect($tipo = null,$campo = null,$idMedio = null) {
     $this->layout = 'ajax';
     //$dcm = TableRegistry::get('Medios')->find();    
     $medios = TableRegistry::get('Medios');
-    $dcm = $medios->find('all', [
-      'conditions' => ['Medios.tipo' => "$tipo"],
-      'order'=>['Medios.nombre ASC']
-    ]);
-    $this->set(compact('dcm'));
+    $medios->displayField('nombre_ciudad');
+    $dcm = $medios->find('list')->where(['tipo' => $tipo]);
+    $this->set(compact('dcm','idMedio','campo'));
     //echo $tipo;
     //debug($articles);
   }
