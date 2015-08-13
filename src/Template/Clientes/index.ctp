@@ -1,45 +1,55 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Html->link(__('New Cliente'), ['action' => 'add']) ?></li>
-    </ul>
-</div>
-<div class="clientes index large-10 medium-9 columns">
-    <table cellpadding="0" cellspacing="0">
-    <thead>
-        <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('nombre') ?></th>
-            <th><?= $this->Paginator->sort('telefono') ?></th>
-            <th><?= $this->Paginator->sort('created') ?></th>
-            <th><?= $this->Paginator->sort('modified') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($clientes as $cliente): ?>
-        <tr>
-            <td><?= $this->Number->format($cliente->id) ?></td>
-            <td><?= h($cliente->nombre) ?></td>
-            <td><?= h($cliente->telefono) ?></td>
-            <td><?= h($cliente->created) ?></td>
-            <td><?= h($cliente->modified) ?></td>
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $cliente->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $cliente->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $cliente->id], ['confirm' => __('Are you sure you want to delete # {0}?', $cliente->id)]) ?>
-            </td>
-        </tr>
 
-    <?php endforeach; ?>
-    </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
+
+<section id="content" class="table-layout animated fadeIn">
+    <div class="tray tray-center">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-visible">
+                    <div class="panel-heading">
+                        <div class="panel-title hidden-xs">
+                            <span class="glyphicon glyphicon-tasks"></span>Clientes</div>
+                    </div>
+                    <div class="panel-body pn">
+                        <table class="table table-striped table-hover tabla-dato" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Telefono</th>
+                                    <th>Descripcion</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($clientes as $cli): ?>
+                                  <tr>
+                                      <td><?= $cli->id ?></td>
+                                      <td><?= $cli->nombre ?></td>
+                                      <td><?= $cli->telefono ?></td>
+                                      <td><?= $cli->descripcion ?></td>
+                                      <td>
+                                          <div class="btn-group">
+                                              <a href="<?php echo $this->Url->build(['action' => 'edit', $cli->id]); ?>" type="button" title="Editar" class="btn btn-system">
+                                                  <i class="fa fa-edit"></i>
+                                              </a>
+                                          </div>  
+                                          <div class="btn-group">
+                                              <a href="<?= $this->url->build(['action'=>'contactos', $cli->id]); ?>" type="button" title="Contactos" class="btn btn-primary">
+                                                  <i class="fa fa-group"></i>
+                                              </a>
+                                          </div>   
+                                          <div class="btn-group">
+                                              <?= $this->Html->link('<i class="fa fa-times"></i>', ['action' => 'delete', $cli->id], ['class' => 'btn btn-danger', 'escape' => false, 'title' => 'Eliminar','confirm' => __('Estas seguro de eliminar # {0}?', $cli->id)]) ?>
+                                          </div> 
+                                      </td>
+                                  </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+

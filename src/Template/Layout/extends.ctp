@@ -16,10 +16,12 @@
 
         <!-- Theme CSS -->
         <link rel="stylesheet" type="text/css" href="<?php echo $this->request->webroot; ?>css/theme.css">
-        
+
         <!-- icons -->
         <link rel="stylesheet" type="text/css" href="<?php echo $this->request->webroot; ?>/fonts/glyphicons-pro/glyphicons-pro.css">
         <link rel="stylesheet" href="<?php echo $this->request->webroot; ?>css/validationEngine.jquery.css" type="text/css"/>
+        
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->request->webroot; ?>css/admin-forms.css">
         <?= $this->fetch('addcss') ?>
         <!-- Favicon -->
         <link rel="shortcut icon" href="<?php echo $this->request->webroot; ?>img/favicon.ico">
@@ -31,9 +33,9 @@
     <![endif]-->
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/jquery-1.11.1.min.js"></script>
         <script>
-          $.ajaxPrefilter(function( options, originalOptions, jqXHR ) {
-    options.async = true;
-});
+          $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+              options.async = true;
+          });
         </script>
     </head>
 
@@ -68,7 +70,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle fw600 p15" data-toggle="dropdown"> <img src="<?php echo $this->request->webroot; ?>img/avatars/1.jpg" alt="avatar" class="mw30 br64 mr15">
-                            <span><?= $this->request->session()->read('Auth.User.nombre');?></span>
+                            <span><?= $this->request->session()->read('Auth.User.nombre'); ?></span>
                             <span class="caret caret-tp hidden-xs"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-persist pn w250 bg-white" role="menu">
@@ -86,26 +88,32 @@
             <?php echo $this->element('sidebar/admin'); ?>
 
             <!-- Start: Content-Wrapper -->
-            <section id="content_wrapper">
 
+            <section id="content_wrapper">
+                <script>
+                  var tipo_notif = null;
+                  var texto_noyif = null;
+                </script>
                 <!-- Begin: Content -->
+                <?= $this->Flash->render() ?>
                 <?= $this->fetch('content') ?>  
                 <script>
-                    function cargarmodal(urll)
-                    {
-                        $("#spin-cargando-mod").addClass('show');
-                        $('#modal-principal').modal('show', {backdrop: 'static'});
-                        $("#divmodalimprenta").load(urll, function (responseText, textStatus, req) {
-                            if (textStatus == "error")
-                            {
-                                alert("error!!!");
-                            }
-                            else {
-                                $("#spin-cargando-mod").removeClass('show');
-                            }
-                        });
 
-                    }
+                  function cargarmodal(urll)
+                  {
+                      $("#spin-cargando-mod").addClass('show');
+                      $('#modal-principal').modal('show', {backdrop: 'static'});
+                      $("#divmodalimprenta").load(urll, function (responseText, textStatus, req) {
+                          if (textStatus == "error")
+                          {
+                              alert("error!!!");
+                          }
+                          else {
+                              $("#spin-cargando-mod").removeClass('show');
+                          }
+                      });
+
+                  }
                 </script>
                 <div id="modal-principal" class="modal fade">
                     <div class="modal-dialog">
@@ -127,8 +135,8 @@
         <!-- BEGIN: PAGE SCRIPTS -->
 
         <!-- jQuery -->
-        
-        <script src="<?php echo $this->request->webroot; ?>js/languages/jquery.validationEngine-es.js" type="text/javascript" charset="utf-8">	</script>
+
+        <script src="<?php echo $this->request->webroot; ?>js/languages/jquery.validationEngine-es.js" type="text/javascript" charset="utf-8"></script>
         <script src="<?php echo $this->request->webroot; ?>js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/jquery_ui/jquery-ui.min.js"></script>
@@ -140,20 +148,47 @@
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/utility/utility.js"></script>
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/main.js"></script>
         <script type="text/javascript" src="<?php echo $this->request->webroot; ?>js/demo.js"></script>    
+        <script src="<?php echo $this->request->webroot; ?>js/vendor/plugins/pnotify/pnotify.js"></script>
 
         <?php echo $this->fetch('scriptjs'); ?>
         <script type="text/javascript">
-          jQuery(document).ready(function () {
+                  jQuery(document).ready(function () {
 
-              "use strict";
+                      "use strict";
 
-              // Init Theme Core    
-              Core.init();
+                      // Init Theme Core    
+                      Core.init();
 
-              // Init Theme Core    
-              Demo.init();
+                      // Init Theme Core    
+                      Demo.init();
+                      if (tipo_notif && texto_noyif) {
+                          var Stacks = {
+                              stack_bar_top: {
+                                  "dir1": "down",
+                                  "dir2": "right",
+                                  "push": "top",
+                                  "spacing1": 0,
+                                  "spacing2": 0
+                              }
+                          }
+                          var noteShadow = "false";
+                          var noteStack = "stack_bar_top";
+                          var noteOpacity = "1";
 
-          });
+                          // Create new Notification
+                          new PNotify({
+                              title: tipo_notif,
+                              text: texto_noyif,
+                              shadow: noteShadow,
+                              opacity: noteOpacity,
+                              addclass: noteStack,
+                              type: noteStyle,
+                              stack: Stacks[noteStack],
+                              width: "100%",
+                              delay: 2000
+                          });
+                      }
+                  });
         </script>
         <!-- END: PAGE SCRIPTS -->
 

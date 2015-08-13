@@ -1,14 +1,14 @@
-
 <div id="modal-form" class=" popup-basic admin-form mfp-with-anim mfp-hide">
     <div class="panel">
         <div class="panel-heading">
             <span class="panel-title">
-                <i class="fa fa-rocket"></i>Registro de Medio</span>
+                <i class="fa fa-rocket"></i>Contacto de <?= $cliente->nombre ?></span>
         </div>
         <!-- end .panel-heading section -->
 
         <!--<form method="post" action="/" id="comment">-->
-        <?php echo $this->Form->create($medio, ['id' => 'formCliente']); ?>
+        <?php echo $this->Form->create($contacto, ['id' => 'formCliente']); ?>
+        <?= $this->Form->hidden('cliente_id' ,['value' => $cliente->id]);?>
         <div class="panel-body p25">
             <div class="section row">                    
 
@@ -23,9 +23,12 @@
                 <!-- end section -->
 
                 <div class="col-md-6">
-                    <?php $cdd = ['La Paz' => 'La Paz', 'Cochabamba' => 'Cochabamba', 'Santa Cruz' => 'Santa Cruz', 'Pando' => 'Pando', 'Beni' => 'Beni', 'Oruro' => 'Oruro', 'Potosi' => 'Potosi', 'Tarija' => 'Tarija']; ?>
-                    <?php echo $this->Form->select('ciudad', $cdd, ['class' => 'form-control', 'required', 'empty' => 'Seleccione la ciudad']); ?>    
-
+                    <label for="firstname" class="field prepend-icon">
+                        <?= $this->Form->text('cargo', ['class' => 'gui-input', 'placeholder' => 'Cargo', 'required']) ?>                  
+                        <label for="firstname" class="field-icon">
+                            <i class="fa fa-phone"></i>
+                        </label>
+                    </label>
                 </div>
                 <!-- end section -->
 
@@ -34,27 +37,19 @@
 
                 <div class="col-md-6">
                     <label for="lastname" class="field prepend-icon">
-                        <?= $this->Form->text('url', ['class' => 'gui-input', 'placeholder' => 'Url', 'required']) ?>
+                        <?= $this->Form->text('email', ['class' => 'gui-input', 'placeholder' => 'Email', 'required']) ?>
                         <label for="lastname" class="field-icon">
                             <i class="fa fa-user"></i>
                         </label>
                     </label>
                 </div>
-
-                <div class="col-md-6">
-                    <?php $tipo = ['Impreso' => 'Impreso', 'Digital' => 'Digital', 'Radio' => 'Radio', 'Tv' => 'Tv', 'Fuente' => 'Fuente']; ?>
-                    <?php echo $this->Form->select('tipo', $tipo, ['class' => 'form-control', 'required', 'empty' => 'Seleccione el tipo']); ?>    
-                </div>
                 <!-- end section -->
 
-            </div>
-            <div class="section row">                    
-
-                <div class="col-md-12">
-                    <label for="lastname" class="field prepend-icon">
-                        <?= $this->Form->textarea('descripcion', ['class' => 'gui-textarea', 'placeholder' => 'Descripcion']) ?>
-                        <label for="lastname" class="field-icon">
-                            <i class="fa fa-user"></i>
+                <div class="col-md-6">
+                    <label for="firstname" class="field prepend-icon">
+                        <?= $this->Form->text('celular', ['class' => 'gui-input', 'placeholder' => 'Celular', 'required']) ?>                  
+                        <label for="firstname" class="field-icon">
+                            <i class="fa fa-phone"></i>
                         </label>
                     </label>
                 </div>
@@ -67,7 +62,7 @@
         <!-- end .form-body section -->
 
         <div class="panel-footer">
-            <button type="submit" class="button btn-primary">Guardar Medio</button>
+            <button type="submit" class="button btn-primary">Guardar Contacto</button>
             <!--<button type="submit" class="button btn-dark" onclick="cerrarModal()">Cerrar</button>-->
         </div>
         <!-- end .form-footer section -->

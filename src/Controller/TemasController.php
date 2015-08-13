@@ -12,14 +12,16 @@ use Cake\ORM\TableRegistry;
  */
 class TemasController extends AppController {
 
+  public $layout = 'extends';
+
   /**
    * Index method
    *
    * @return void
    */
   public function index() {
-    $this->set('temas', $this->paginate($this->Temas));
-    $this->set('_serialize', ['temas']);
+    $temas = $this->Temas->find();
+    $this->set(compact('temas'));
   }
 
   /**
@@ -43,15 +45,16 @@ class TemasController extends AppController {
    * @return void Redirects on successful add, renders view otherwise.
    */
   public function add() {
+    $this->layout = 'ajax';
     $tema = $this->Temas->newEntity();
     if ($this->request->is('post')) {
       $tema = $this->Temas->patchEntity($tema, $this->request->data);
       if ($this->Temas->save($tema)) {
-        $this->Flash->success(__('The tema has been saved.'));
-        return $this->redirect(['action' => 'index']);
+        $this->Flash->msgbueno(__('The tema has been saved.'));
       } else {
-        $this->Flash->error(__('The tema could not be saved. Please, try again.'));
+        $this->Flash->msgerror(__('The tema could not be saved. Please, try again.'));
       }
+      return $this->redirect(['action' => 'index']);
     }
     $this->set(compact('tema'));
     $this->set('_serialize', ['tema']);
@@ -65,17 +68,18 @@ class TemasController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function edit($id = null) {
+    $this->layout = 'ajax';
     $tema = $this->Temas->get($id, [
       'contain' => []
     ]);
     if ($this->request->is(['patch', 'post', 'put'])) {
       $tema = $this->Temas->patchEntity($tema, $this->request->data);
       if ($this->Temas->save($tema)) {
-        $this->Flash->success(__('The tema has been saved.'));
-        return $this->redirect(['action' => 'index']);
+        $this->Flash->msgbueno(__('The tema has been saved.'));
       } else {
-        $this->Flash->error(__('The tema could not be saved. Please, try again.'));
+        $this->Flash->msgerror(__('The tema could not be saved. Please, try again.'));
       }
+      return $this->redirect(['action' => 'index']);
     }
     $this->set(compact('tema'));
     $this->set('_serialize', ['tema']);
@@ -89,18 +93,17 @@ class TemasController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function delete($id = null) {
-    $this->request->allowMethod(['post', 'delete']);
     $tema = $this->Temas->get($id);
     if ($this->Temas->delete($tema)) {
-      $this->Flash->success(__('The tema has been deleted.'));
+      $this->Flash->msgbueno(__('The tema has been deleted.'));
     } else {
-      $this->Flash->error(__('The tema could not be deleted. Please, try again.'));
+      $this->Flash->msgerror(__('The tema could not be deleted. Please, try again.'));
     }
     return $this->redirect(['action' => 'index']);
   }
 
-  public function ajaxformtema($div = null,$campo = null) {
-    
+  public function ajaxformtema($div = null, $campo = null) {
+
     $this->layout = 'ajax';
     $tema = $this->Temas->newEntity();
     if ($this->request->is('post')) {
@@ -113,20 +116,19 @@ class TemasController extends AppController {
       $json = json_encode(array('id' => $idTema));
       $this->response->body($json);
     }
-    $this->set(compact('tema', 'div','campo'));
+    $this->set(compact('tema', 'div', 'campo'));
     $this->set('_serialize', ['tema']);
-    
   }
-  
-  public function ajaxactselect($campo = null,$idTema = null){
+
+  public function ajaxactselect($campo = null, $idTema = null) {
     $this->layout = 'ajax';
     //$dcm = TableRegistry::get('Medios')->find();    
     $temas = TableRegistry::get('Temas');
     $temas->displayField('nombre');
     $dct = $temas->find('list', [
-      'order'=>['Temas.nombre ASC']
+      'order' => ['Temas.nombre ASC']
     ]);
-    $this->set(compact('dct','campo','idTema'));
+    $this->set(compact('dct', 'campo', 'idTema'));
     //echo $tipo;
     //debug($articles);
   }

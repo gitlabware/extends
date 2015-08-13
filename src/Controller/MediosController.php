@@ -20,8 +20,8 @@ class MediosController extends AppController {
    * @return void
    */
   public function index() {
-    $this->set('medios', $this->paginate($this->Medios));
-    $this->set('_serialize', ['medios']);
+    $medios = $this->Medios->find();
+    $this->set(compact('medios'));
   }
 
   /**
@@ -45,16 +45,18 @@ class MediosController extends AppController {
    * @return void Redirects on successful add, renders view otherwise.
    */
   public function add() {
+    $this->layout = 'ajax';
     $medio = $this->Medios->newEntity();
-    if ($this->request->is('post')) {
+    if (!empty($this->request->data)) {
       $medio = $this->Medios->patchEntity($medio, $this->request->data);
-      debug($medio);die;
+      
       if ($this->Medios->save($medio)) {
-        $this->Flash->success(__('The medio has been saved.'));
-        return $this->redirect(['action' => 'index']);
+        $this->Flash->msgbueno(__('The medio has been saved.'));
+        
       } else {
-        $this->Flash->error(__('The medio could not be saved. Please, try again.'));
+        $this->Flash->msgerror(__('The medio could not be saved. Please, try again.'));
       }
+      return $this->redirect(['action' => 'index']);
     }
 
     $this->set(compact('medio'));
@@ -69,17 +71,18 @@ class MediosController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function edit($id = null) {
+    $this->layout = 'ajax';
     $medio = $this->Medios->get($id, [
       'contain' => []
     ]);
     if ($this->request->is(['patch', 'post', 'put'])) {
       $medio = $this->Medios->patchEntity($medio, $this->request->data);
       if ($this->Medios->save($medio)) {
-        $this->Flash->success(__('The medio has been saved.'));
-        return $this->redirect(['action' => 'index']);
+        $this->Flash->msgbueno(__('The medio has been saved.'));
       } else {
-        $this->Flash->error(__('The medio could not be saved. Please, try again.'));
+        $this->Flash->msgerror(__('The medio could not be saved. Please, try again.'));
       }
+      return $this->redirect(['action' => 'index']);
     }
     $this->set(compact('medio'));
     $this->set('_serialize', ['medio']);
@@ -93,12 +96,11 @@ class MediosController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function delete($id = null) {
-    $this->request->allowMethod(['post', 'delete']);
     $medio = $this->Medios->get($id);
     if ($this->Medios->delete($medio)) {
-      $this->Flash->success(__('The medio has been deleted.'));
+      $this->Flash->msgbueno(__('The medio has been deleted.'));
     } else {
-      $this->Flash->error(__('The medio could not be deleted. Please, try again.'));
+      $this->Flash->msgerror(__('The medio could not be deleted. Please, try again.'));
     }
     return $this->redirect(['action' => 'index']);
   }

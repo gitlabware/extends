@@ -24,7 +24,7 @@ class ClientesTable extends Table
     public function initialize(array $config)
     {
         $this->table('clientes');
-        $this->displayField('nuevo');
+        $this->displayField('nombre');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
         $this->hasMany('Noticias', [
@@ -53,6 +53,12 @@ class ClientesTable extends Table
             
         $validator
             ->allowEmpty('descripcion');
+        $validator
+            ->allowEmpty('direccion');
+        $validator
+            ->allowEmpty('ciudad');
+        $validator
+            ->allowEmpty('web');
 
         return $validator;
     }

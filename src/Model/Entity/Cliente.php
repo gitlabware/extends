@@ -18,6 +18,9 @@ class Cliente extends Entity {
     'nombre' => true,
     'telefono' => true,
     'descripcion' => true,
+    'direccion' => true,
+    'ciudad' => true,
+    'web' => true,
   ];
 
   

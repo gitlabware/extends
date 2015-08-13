@@ -463,17 +463,12 @@ echo $this->Html->css([
                                   <div class="col-md-5">
                                       <?php //debug($dcm->all());     ?>
                                       <div id="divselrad">
-                                          <select name="data[2][medio_id]" class="form-control">
-                                              <option value="0">Seleccione Medio</option>
-                                              <?php foreach ($dcmr as $d): ?>
-                                                <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
-                                              <?php endforeach; ?>
-                                          </select> 
-                                          <input type="hidden" name="data[2][tipo_id]" value="Radio">
+                                          <?php echo $this->Form->select("medio_id", $dcmr, ['class' => 'form-control', 'empty' => 'Seleccione el medio']); ?>
+                                          <?= $this->Form->hidden("tipo_id", ['value' => 'Radio']); ?>
                                       </div>
                                   </div>
                                   <div class="col-md-1">                                   
-                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Radio', 'divselrad']); ?>');">
+                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Radio', 'divselrad','medio_id']); ?>');">
                                           <i class="glyphicons glyphicons-circle_plus"></i>
                                       </button>
                                   </div>
@@ -481,7 +476,7 @@ echo $this->Html->css([
                                   <div class="col-md-3">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[2][fuente]" id="email" class="gui-input" placeholder="Fuente">
+                                              <?= $this->Form->text("fuente", ['id' => 'email', 'class' => 'gui-input', 'placeholder' => 'Fuente']) ?>
                                               <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
                                               </label>
                                           </label>
@@ -490,7 +485,7 @@ echo $this->Html->css([
                                   <div class="col-md-3">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[2][pagina]" id="s" class="gui-input" placeholder="Alias">
+                                              <?= $this->Form->text("alias", ['id' => 's', 'class' => 'gui-input', 'placeholder' => 'Alias']) ?>
                                               <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                               </label>
                                           </label>
@@ -502,7 +497,7 @@ echo $this->Html->css([
                                   <div class="col-md-12">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[2][titulo]" id="firstname" class="gui-input" placeholder="Titulo">
+                                              <?= $this->Form->text("titulo", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Titulo']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -515,7 +510,7 @@ echo $this->Html->css([
                                   <div class="col-md-8">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[2][riesgo]" id="firstname" class="gui-input" placeholder="Riesgo Comunicacional">
+                                              <?= $this->Form->text("riesgo", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Riesgo Comunicacional']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -525,7 +520,7 @@ echo $this->Html->css([
                                   <div class="col-md-4">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[2][programa]" id="firstname" class="gui-input" placeholder="Programa">
+                                              <?= $this->Form->text("programa", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Programa']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -550,13 +545,37 @@ echo $this->Html->css([
                                       </div>
                                   </div>
                               </div>                         
+                              
+                              <?php foreach ($adjuntos_n as $key => $ad): ?>
+                                <?php $num = $key + 1; ?>
+                                <script>
+                                  vec_file[2]++;
+                                </script>
+                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                    <div class="col-md-12">
+                                        <div class="section">
 
+                                            <?php if (!empty($ad->url_ext)): ?>
+                                              <?php $url = $ad->url_ext; ?>
+                                              <?= $this->Form->hidden("data.2.adjuntos.$num.url", ['value' => $ad->url_ext]); ?>
+                                            <?php else: ?>
+                                              <?= $this->Form->hidden("data.2.adjuntos.$num.url_int", ['value' => $ad->url_int]); ?>
+                                              <?php $url = $this->request->webroot . 'adjuntos/' . $ad->url_int; ?>
+                                            <?php endif; ?>
+                                            <a class="label label-primary" href="<?= $url ?>">
+                                                <?= $url ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                              <?php endforeach; ?>
+                              
                               <!-- Text Areas -->
                               <div class="row">
                                   <div class="col-md-12">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <textarea class="gui-textarea" id="comment" name="data[2][descripcion]" placeholder="Descricion"></textarea>
+                                              <?php echo $this->Form->textarea("descripcion", ['class' => 'gui-textarea', 'id' => 'comment', 'placeholder' => 'Descripcion']) ?>
                                               <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                               </label>
                                               <span class="input-footer">
@@ -571,18 +590,13 @@ echo $this->Html->css([
                                       <div class="section">
                                           <label class="field prepend-icon">
                                               <div id="divselimptemar">
-                                                  <select name="data[2][tema_id]" class="form-control" name="tema_id">
-                                                      <option value="0">Seleccione Tema</option>
-                                                      <?php foreach ($dct as $t): ?>
-                                                        <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
-                                                      <?php endforeach; ?>
-                                                  </select>                                                   
+                                                  <?php echo $this->Form->select("tema_id", $dct, ['class' => 'form-control', 'empty' => 'Seleccione Tema']); ?>                                              
                                               </div>
                                           </label>                                        
                                       </div>
                                   </div>
                                   <div class="col-md-1">
-                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemar']); ?>');">
+                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemar', 'tema_id']); ?>');">
                                           <i class="glyphicons glyphicons-circle_plus"></i>
                                       </button>
                                   </div>
@@ -591,19 +605,25 @@ echo $this->Html->css([
 
                               <div class="row">
 
-                                  <div class="section mb15 border-right">                                    
-                                      <div class="option-group field">
-                                          &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
-                                          <label class="option">
-                                              <input type="radio" value="Positivo" name="data[2][tendencia]" checked>
-                                              <span class="radio"></span>Positivo</label>
-                                          <label class="option">
-                                              <input type="radio" value="Negativo" name="data[2][tendencia]">
-                                              <span class="radio"></span>Negativo</label>
-                                          <label class="option">
-                                              <input type="radio" value="Neutro" name="data[2][tendencia]">
-                                              <span class="radio"></span>Neutro</label>
-                                      </div>
+                                  <div class="section mb15 border-right">  
+                                      <?php
+                                      echo $this->Form->input(
+                                        'tendencia', [
+                                        'templates' => [
+                                          'inputContainer' => '&nbsp;&nbsp;&nbsp;Tendencia&nbsp; {{content}}',
+                                          'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}><span class="radio"></span>{{value}}',
+                                          'radioWrapper' => '<label class="option">{{input}}</label>'
+                                        ],
+                                        'options' => [
+                                          ['value' => 'Positivo', 'text' => 'Positivo'],
+                                          ['value' => 'Negativo', 'text' => 'Negativo'],
+                                          ['value' => 'Neutro', 'text' => 'Neutro']
+                                        ],
+                                        'type' => 'radio',
+                                        'label' => FALSE
+                                        ]
+                                      );
+                                      ?>
                                       <!-- end .option-group section -->
                                   </div>
 
@@ -624,17 +644,12 @@ echo $this->Html->css([
                                   <div class="col-md-5">
                                       <?php //debug($dcm->all());     ?>
                                       <div id="divseltv">
-                                          <select name="data[3][medio_id]" class="form-control">
-                                              <option value="0">Seleccione Medio</option>
-                                              <?php foreach ($dcmt as $d): ?>
-                                                <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
-                                              <?php endforeach; ?>
-                                          </select>  
-                                          <input type="hidden" name="data[3][tipo_id]" value="Tv">
+                                          <?php echo $this->Form->select("medio_id", $dcmt, ['class' => 'form-control', 'empty' => 'Seleccione el medio']); ?>
+                                          <?= $this->Form->hidden("tipo_id", ['value' => 'Tv']); ?>
                                       </div>
                                   </div>
                                   <div class="col-md-1">                                   
-                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Tv', 'divseltv']); ?>');">
+                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Tv', 'divseltv', 'medio_id']); ?>');">
                                           <i class="glyphicons glyphicons-circle_plus"></i>
                                       </button>
                                   </div>
@@ -642,7 +657,7 @@ echo $this->Html->css([
                                   <div class="col-md-3">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[3][fuente]" id="email" class="gui-input" placeholder="Fuente">
+                                              <?= $this->Form->text("fuente", ['id' => 'email', 'class' => 'gui-input', 'placeholder' => 'Fuente']) ?>
                                               <label for="email" class="field-icon"><i class="fa fa-envelope"></i>
                                               </label>
                                           </label>
@@ -651,7 +666,7 @@ echo $this->Html->css([
                                   <div class="col-md-3">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[3][pagina]" id="s" class="gui-input" placeholder="Alias">
+                                              <?= $this->Form->text("alias", ['id' => 's', 'class' => 'gui-input', 'placeholder' => 'Alias']) ?>
                                               <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                               </label>
                                           </label>
@@ -663,7 +678,7 @@ echo $this->Html->css([
                                   <div class="col-md-12">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[3][titulo]" id="firstname" class="gui-input" placeholder="Titulo">
+                                              <?= $this->Form->text("titulo", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Titulo']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -676,7 +691,7 @@ echo $this->Html->css([
                                   <div class="col-md-8">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[3][riesgo]" id="firstname" class="gui-input" placeholder="Riesgo Comunicacional">
+                                              <?= $this->Form->text("riesgo", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Riesgo Comunicacional']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -686,7 +701,7 @@ echo $this->Html->css([
                                   <div class="col-md-4">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[3][programa]" id="firstname" class="gui-input" placeholder="Programa">
+                                              <?= $this->Form->text("programa", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Programa']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -710,14 +725,37 @@ echo $this->Html->css([
                                           <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(3);">Quitar Adjunto</button>
                                       </div>
                                   </div>
-                              </div>                          
+                              </div>    
+                              <?php foreach ($adjuntos_n as $key => $ad): ?>
+                                <?php $num = $key + 1; ?>
+                                <script>
+                                  vec_file[3]++;
+                                </script>
+                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                    <div class="col-md-12">
+                                        <div class="section">
+
+                                            <?php if (!empty($ad->url_ext)): ?>
+                                              <?php $url = $ad->url_ext; ?>
+                                              <?= $this->Form->hidden("data.3.adjuntos.$num.url", ['value' => $ad->url_ext]); ?>
+                                            <?php else: ?>
+                                              <?= $this->Form->hidden("data.3.adjuntos.$num.url_int", ['value' => $ad->url_int]); ?>
+                                              <?php $url = $this->request->webroot . 'adjuntos/' . $ad->url_int; ?>
+                                            <?php endif; ?>
+                                            <a class="label label-primary" href="<?= $url ?>">
+                                                <?= $url ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                              <?php endforeach; ?>
 
                               <!-- Text Areas -->
                               <div class="row">
                                   <div class="col-md-12">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <textarea class="gui-textarea" id="comment" name="data[3][descripcion]" placeholder="Descricion"></textarea>
+                                              <?php echo $this->Form->textarea("descripcion", ['class' => 'gui-textarea', 'id' => 'comment', 'placeholder' => 'Descripcion']) ?>
                                               <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                               </label>
                                               <span class="input-footer">
@@ -732,18 +770,14 @@ echo $this->Html->css([
                                       <div class="section">
                                           <label class="field prepend-icon">
                                               <div id="divselimptemat">
-                                                  <select name="data[3][tema_id]" class="form-control" name="tema_id">
-                                                      <option value="0">Seleccione Tema</option>
-                                                      <?php foreach ($dct as $t): ?>
-                                                        <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
-                                                      <?php endforeach; ?>
-                                                  </select>                                                   
+                                                  <?php echo $this->Form->select("tema_id", $dct, ['class' => 'form-control', 'empty' => 'Seleccione Tema']); ?>
+                                                                                                  
                                               </div>
                                           </label>                                        
                                       </div>
                                   </div>
                                   <div class="col-md-1">
-                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemat']); ?>');">
+                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemat', 'tema_id']); ?>');">
                                           <i class="glyphicons glyphicons-circle_plus"></i>
                                       </button>
                                   </div>
@@ -752,20 +786,25 @@ echo $this->Html->css([
 
                               <div class="row">
 
-                                  <div class="section mb15 border-right">                                    
-                                      <div class="option-group field">
-                                          &nbsp;&nbsp;&nbsp;Tendencia&nbsp;
-                                          <label class="option">
-                                              <input type="radio" value="Positivo" name="data[3][tendencia]" checked>
-                                              <span class="radio"></span>Positivo</label>
-                                          <label class="option">
-                                              <input type="radio" value="Negativo" name="data[3][tendencia]">
-                                              <span class="radio"></span>Negativo</label>
-                                          <label class="option">
-                                              <input type="radio" value="Neutro" name="data[3][tendencia]">
-                                              <span class="radio"></span>Neutro</label>
-                                      </div>
-                                      <!-- end .option-group section -->
+                                  <div class="section mb15 border-right">         
+                                      <?php
+                                      echo $this->Form->input(
+                                        'tendencia', [
+                                        'templates' => [
+                                          'inputContainer' => '&nbsp;&nbsp;&nbsp;Tendencia&nbsp; {{content}}',
+                                          'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}><span class="radio"></span>{{value}}',
+                                          'radioWrapper' => '<label class="option">{{input}}</label>'
+                                        ],
+                                        'options' => [
+                                          ['value' => 'Positivo', 'text' => 'Positivo'],
+                                          ['value' => 'Negativo', 'text' => 'Negativo'],
+                                          ['value' => 'Neutro', 'text' => 'Neutro']
+                                        ],
+                                        'type' => 'radio',
+                                        'label' => FALSE
+                                        ]
+                                      );
+                                      ?>
                                   </div>
 
                               </div>    
@@ -784,17 +823,12 @@ echo $this->Html->css([
                                   <div class="col-md-10">
                                       <?php //debug($dcm->all());     ?>
                                       <div id="divselfue">
-                                          <select name="data[4][medio_id]" class="form-control">
-                                              <option value="0">Seleccione Medio</option>
-                                              <?php foreach ($dcmf as $d): ?>
-                                                <option value="<?php echo $d['id']; ?>"><?php echo $d['nombre']; ?> (<?php echo $d['ciudad']; ?>)</option>                                                                                        
-                                              <?php endforeach; ?>
-                                          </select>   
-                                          <input type="hidden" name="data[4][tipo_id]" value="Fuente">
+                                          <?php echo $this->Form->select("medio_id", $dcmf, ['class' => 'form-control', 'empty' => 'Seleccione el medio']); ?>
+                                          <?= $this->Form->hidden("tipo_id", ['value' => 'Fuente']); ?>
                                       </div>
                                   </div>
                                   <div class="col-md-2">                                   
-                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Fuente', 'divselfue']); ?>');">
+                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Fuente', 'divselfue', 'medio_id']); ?>');">
                                           <i class="glyphicons glyphicons-circle_plus"></i>
                                       </button>
                                   </div>                                
@@ -806,7 +840,7 @@ echo $this->Html->css([
                                   <div class="col-md-12">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[4][titlulo]" id="firstname" class="gui-input" placeholder="Titulo">
+                                              <?= $this->Form->text("titlulo", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Titulo']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -819,7 +853,7 @@ echo $this->Html->css([
                                   <div class="col-md-4">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[4][fuente]" id="firstname" class="gui-input" placeholder="Fuente">
+                                              <?= $this->Form->text("fuente", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Fuente']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -828,7 +862,7 @@ echo $this->Html->css([
                                   <div class="col-md-8">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <input type="text" name="data[4][alias]" id="firstname" class="gui-input" placeholder="Alias">
+                                              <?= $this->Form->text("alias", ['id' => 'firstname', 'class' => 'gui-input', 'placeholder' => 'Alias']) ?>
                                               <label for="firstname" class="field-icon"><i class="fa fa-user"></i>
                                               </label>
                                           </label>
@@ -852,14 +886,38 @@ echo $this->Html->css([
                                           <button class="btn btn-xs btn-danger btn-block" type="button" onclick="quita_ar_adj(4);">Quitar Adjunto</button>
                                       </div>
                                   </div>
-                              </div>                     
+                              </div>    
+                              
+                              <?php foreach ($adjuntos_n as $key => $ad): ?>
+                                <?php $num = $key + 1; ?>
+                                <script>
+                                  vec_file[4]++;
+                                </script>
+                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                    <div class="col-md-12">
+                                        <div class="section">
+
+                                            <?php if (!empty($ad->url_ext)): ?>
+                                              <?php $url = $ad->url_ext; ?>
+                                              <?= $this->Form->hidden("data.4.adjuntos.$num.url", ['value' => $ad->url_ext]); ?>
+                                            <?php else: ?>
+                                              <?= $this->Form->hidden("data.4.adjuntos.$num.url_int", ['value' => $ad->url_int]); ?>
+                                              <?php $url = $this->request->webroot . 'adjuntos/' . $ad->url_int; ?>
+                                            <?php endif; ?>
+                                            <a class="label label-primary" href="<?= $url ?>">
+                                                <?= $url ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                              <?php endforeach; ?>
 
                               <!-- Text Areas -->
                               <div class="row">
                                   <div class="col-md-12">
                                       <div class="section">
                                           <label class="field prepend-icon">
-                                              <textarea class="gui-textarea" id="comment" name="data[4][descripcion]" placeholder="Descricion"></textarea>
+                                              <?php echo $this->Form->textarea("descripcion", ['class' => 'gui-textarea', 'id' => 'comment', 'placeholder' => 'Descripcion']) ?>
                                               <label for="comment" class="field-icon"><i class="fa fa-comments"></i>
                                               </label>
                                               <span class="input-footer">
@@ -874,18 +932,13 @@ echo $this->Html->css([
                                       <div class="section">
                                           <label class="field prepend-icon">
                                               <div id="divselimptemaf">
-                                                  <select name="data[4][tema_id]" class="form-control" name="tema_id">
-                                                      <option value="0">Seleccione Tema</option>
-                                                      <?php foreach ($dct as $t): ?>
-                                                        <option value="<?php echo $t['id']; ?>"><?php echo $t['nombre']; ?></option>                                                                                        
-                                                      <?php endforeach; ?>
-                                                  </select>                                                   
+                                                  <?php echo $this->Form->select("tema_id", $dct, ['class' => 'form-control', 'empty' => 'Seleccione Tema']); ?>                                                
                                               </div>
                                           </label>                                        
                                       </div>
                                   </div>
                                   <div class="col-md-1">
-                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemaf']); ?>');">
+                                      <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemaf', 'tema_id']); ?>');">
                                           <i class="glyphicons glyphicons-circle_plus"></i>
                                       </button>
                                   </div>

@@ -139,7 +139,7 @@
                                     <input type="hidden" name="data[0][tipo_id]" value="Impreso">
                                 </div>
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso', 'divselimp']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Impreso', 'divselimp','data.0.medio_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -272,7 +272,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemai']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemai','data.0.tema_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -320,7 +320,7 @@
                                 </div>
                                 <input type="hidden" name="data[1][tipo_id]" value="Digital">
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Digital', 'divseldig']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Digital', 'divseldig','data.1.medio_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -430,7 +430,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemad']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemad','data.1.tema_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -479,7 +479,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Radio', 'divselrad']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Radio', 'divselrad','data.2.medio_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -496,7 +496,7 @@
                                 <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="data[2][pagina]" id="s" class="gui-input" placeholder="Alias">
+                                            <input type="text" name="data[2][alias]" id="s" class="gui-input" placeholder="Alias">
                                             <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                             </label>
                                         </label>
@@ -588,7 +588,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemar']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemar','data.2.tema_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -639,7 +639,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Tv', 'divseltv']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Tv', 'divseltv','data.3.medio_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -656,7 +656,7 @@
                                 <div class="col-md-3">
                                     <div class="section">
                                         <label class="field prepend-icon">
-                                            <input type="text" name="data[3][pagina]" id="s" class="gui-input" placeholder="Alias">
+                                            <input type="text" name="data[3][alias]" id="s" class="gui-input" placeholder="Alias">
                                             <label for="s" class="field-icon"><i class="fa fa-search"></i>
                                             </label>
                                         </label>
@@ -748,7 +748,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemat']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemat','data.3.tema_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>
@@ -797,7 +797,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">                                   
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Fuente', 'divselfue']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Medios', 'action' => 'ajaxformedio', 'Fuente', 'divselfue','data.4.medio_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>                                
@@ -888,7 +888,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemaf']); ?>');">
+                                    <button type="button" class="btn btn-primary" onclick="cargarmodal('<?php echo $this->Url->build(['controller' => 'Temas', 'action' => 'ajaxformtema', 'divselimptemaf','data.4.tema_id']); ?>');">
                                         <i class="glyphicons glyphicons-circle_plus"></i>
                                     </button>
                                 </div>

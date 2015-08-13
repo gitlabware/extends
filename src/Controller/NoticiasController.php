@@ -74,7 +74,7 @@ class NoticiasController extends AppController {
             $this->request->data['Noticia']['tema_id'] = $n['tema_id'];
             $this->request->data['Noticia']['cliente_id'] = $c;
             $this->request->data['Noticia']['tipo'] = $n['tipo_id'];
-            $this->request->data['Noticia']['notaprensa'] = $this->request->data['notapresa'];
+            $this->request->data['Noticia']['notaprensa'] = $this->request->data['notaprensa'];
             $this->request->data['Noticia']['codigo'] = $this->request->data['codigo'];
             $this->request->data['Noticia']['clasificacion'] = $this->request->data['clasificacion'];
             $this->request->data['Noticia']['seccion'] = empty($n['seccion']) ? 'NULL' : $n['seccion'];
@@ -93,15 +93,15 @@ class NoticiasController extends AppController {
             $noticia = $this->Noticias->patchEntity($noticia, $this->request->data['Noticia']);
             $resnot = $this->Noticias->save($noticia);
             $this->guarda_adjuntos($key, $resnot->id);
-
+            $this->Flash->msgbueno('Se registro correctamente la noticia!!','msgbueno');
 
 
             //$noticia = $this->Noticias->patchEntity($noticia, $this->request->data);
 //            if ($this->Noticias->save($noticia)) {
-//              $this->Flash->success(__('The noticia has been saved.'));
+//              $this->Flash->msgbueno(__('The noticia has been saved.'));
 //              return $this->redirect(['action' => 'listado']);
 //            } else {
-//              $this->Flash->error(__('The noticia could not be saved. Please, try again.'));
+//              $this->Flash->msgerror(__('The noticia could not be saved. Please, try again.'));
 //            }
           }
         }
@@ -234,10 +234,10 @@ class NoticiasController extends AppController {
         }
         
         $this->guarda_adjuntos($key, $id);
-        $this->Flash->success(__('The noticia has been saved.'));
+        $this->Flash->msgbueno(__('The noticia has been saved.'));
         return $this->redirect(['action' => 'listado']);
       } else {
-        $this->Flash->error(__('The noticia could not be saved. Please, try again.'));
+        $this->Flash->msgerror(__('The noticia could not be saved. Please, try again.'));
       }
     }
 
@@ -300,9 +300,9 @@ class NoticiasController extends AppController {
   public function delete($id = null) {
     $noticia = $this->Noticias->get($id);
     if ($this->Noticias->delete($noticia)) {
-      $this->Flash->success(__('The noticia has been deleted.'));
+      $this->Flash->msgbueno(__('The noticia has been deleted.'));
     } else {
-      $this->Flash->error(__('The noticia could not be deleted. Please, try again.'));
+      $this->Flash->msgerror(__('The noticia could not be deleted. Please, try again.'));
     }
     return $this->redirect(['action' => 'listado']);
   }

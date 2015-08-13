@@ -1,49 +1,51 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Html->link(__('New Medio'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Noticias'), ['controller' => 'Noticias', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Noticia'), ['controller' => 'Noticias', 'action' => 'add']) ?></li>
-    </ul>
-</div>
-<div class="medios index large-10 medium-9 columns">
-    <table cellpadding="0" cellspacing="0">
-    <thead>
-        <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('nombre') ?></th>
-            <th><?= $this->Paginator->sort('created') ?></th>
-            <th><?= $this->Paginator->sort('modified') ?></th>
-            <th><?= $this->Paginator->sort('ciudad') ?></th>
-            <th><?= $this->Paginator->sort('url') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($medios as $medio): ?>
-        <tr>
-            <td><?= $this->Number->format($medio->id) ?></td>
-            <td><?= h($medio->nombre) ?></td>
-            <td><?= h($medio->created) ?></td>
-            <td><?= h($medio->modified) ?></td>
-            <td><?= h($medio->ciudad) ?></td>
-            <td><?= h($medio->url) ?></td>
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $medio->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $medio->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $medio->id], ['confirm' => __('Are you sure you want to delete # {0}?', $medio->id)]) ?>
-            </td>
-        </tr>
 
-    <?php endforeach; ?>
-    </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
+<section id="content" class="table-layout animated fadeIn">
+    <div class="tray tray-center">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-visible">
+                    <div class="panel-heading">
+                        <div class="panel-title hidden-xs">
+                            <span class="glyphicon glyphicon-tasks"></span>Medios</div>
+                    </div>
+                    <div class="panel-body pn">
+                        <table class="table table-striped table-hover tabla-dato" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Url</th>
+                                    <th>Tipo</th>
+                                    <th>Ciudad</th>
+                                    <th>Descripcion</th>
+                                    <th>Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($medios as $da): ?>
+                                  <tr>
+                                      <td><?= $da->nombre ?></td>
+                                      <td><?= $da->url ?></td>
+                                      <td><?= $da->tipo ?></td>
+                                      <td><?= $da->ciudad ?></td>
+                                      <td><?= $da->descripcion ?></td>
+                                      <td>
+                                          <div class="btn-group">
+                                              <a href="javascript:" onclick="cargarmodal('<?php echo $this->Url->build(['action' => 'edit', $da->id]); ?>');" type="button" title="Editar" class="btn btn-system">
+                                                  <i class="fa fa-edit"></i>
+                                              </a>
+                                          </div>  
+                                          <div class="btn-group">
+                                              <?= $this->Html->link('<i class="fa fa-times"></i>', ['action' => 'delete', $da->id], ['class' => 'btn btn-danger', 'escape' => false, 'title' => 'Eliminar','confirm' => __('Estas seguro de eliminar # {0}?', $da->id)]) ?>
+                                          </div> 
+                                      </td>
+                                  </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+

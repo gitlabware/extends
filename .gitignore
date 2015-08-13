@@ -6,6 +6,7 @@
 # IDE and editor specific files #
 #################################
 /extends/nbproject
+/webroot/adjuntos/*
 .idea
 
 # OS generated files #

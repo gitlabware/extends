@@ -248,10 +248,7 @@
 
 </section>
 <!-- End: Content -->
-</div>
 
-
-</div>
 </aside>
 <!-- end: .tray-right -->
 
