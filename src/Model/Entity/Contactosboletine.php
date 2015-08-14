@@ -4,9 +4,9 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Adjunto Entity.
+ * Contactosboletine Entity.
  */
-class Adjunto extends Entity
+class Contactosboletine extends Entity
 {
 
     /**
@@ -15,9 +15,10 @@ class Adjunto extends Entity
      * @var array
      */
     protected $_accessible = [
-        'noticia_id' => true,
-        'url_ext' => true,
-        'url_int' => true,
-        'noticia' => true,
+        'contacto_id' => true,
+        'boletine_id' => true,
+        'estado' => true,
+        'contacto' => true,
+        'boletine' => true,
     ];
 }

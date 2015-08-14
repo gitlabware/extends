@@ -190,9 +190,10 @@
 
                         <?php //debug($noticias->toArray()); ?>
                         <div class="panel-body pn">
-                            <table class="table table-striped table-hover display" id="datatable5" cellspacing="0" width="100%">
+                            <table class="table tc-checkbox-1 admin-form theme-warning br-t" id="datatable5" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Fecha</th>
                                         <th>Cliente</th>
                                         <th>Medio</th>
@@ -204,6 +205,12 @@
                                 <tbody>
                                     <?php foreach ($noticias as $n): ?>
                                       <tr>
+                                          <td class="hidden-xs">
+                                              <label class="option block mn">
+                                                  <input type="checkbox" name="idnoticia-<?= $n['id']; ?>" value="FR">
+                                                  <span class="checkbox mn"></span>
+                                              </label>
+                                          </td>
                                           <td><?= $n['fecha']; ?></td>
                                           <td><?= $n['cliente']['nombre']; ?></td>
                                           <td><?= $n['medio']['nombre']; ?></td>
@@ -211,17 +218,17 @@
                                           <td><?= $n['tendencia']; ?></td>
                                           <td>
                                               <div class="btn-group">
-                                                  <a href="<?php echo $this->Url->build(['action'=>'edit', $n['id']]);?>" type="button" class="btn btn-info">
+                                                  <a href="<?php echo $this->Url->build(['action' => 'edit', $n['id']]); ?>" type="button" class="btn btn-info">
                                                       <i class="fa fa-edit"></i>
                                                   </a>
                                               </div>  
                                               <div class="btn-group">
-                                                  <a href="#<? // $this->url->build(['action'=>'edit', $n['id']]);?>" type="button" class="btn btn-success">
+                                                  <a href="#<? // $this->url->build(['action'=>'edit', $n['id']]);          ?>" type="button" class="btn btn-success">
                                                       <i class="fa fa-eye"></i>
                                                   </a>
                                               </div>   
                                               <div class="btn-group">
-                                                  <?= $this->Html->link('<i class="fa fa-times"></i>', ['action' => 'delete', $n['id']], ['class' => 'btn btn-danger','escape' => false,'confirm' => __('Estas seguro de eliminar # {0}?', $n['id'])]) ?>
+                                                  <?= $this->Html->link('<i class="fa fa-times"></i>', ['action' => 'delete', $n['id']], ['class' => 'btn btn-danger', 'escape' => false, 'confirm' => __('Estas seguro de eliminar # {0}?', $n['id'])]) ?>
                                               </div>                                                 
                                           </td>
                                       </tr>
@@ -229,6 +236,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th></th>
                                         <th>Fecha</th>
                                         <th>Cliente</th>
                                         <th>Medio</th>
@@ -242,6 +250,21 @@
                     </div>
                 </div>
             </div>
+            <?= $this->Form->create(NULL, ['url' => ['controller' => 'Boletines','action' => 'genera_boletin'],'id' => 'formboletin']) ?>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="section">
+                        <?php echo $this->Form->select('cliente_id', $l_clientes, ['class' => 'form-control', 'empty' => 'Seleccione al cliente','required']); ?>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="section">
+                        <button class="btn active btn-info btn-block">GENERAR BOLETIN</button>
+                    </div>
+                </div>
+            </div>
+            <?= $this->Form->end() ?>
+
         </div>
     </div>
     <!-- end: .tray-center -->
@@ -274,6 +297,18 @@
 <!-- Select2 Plugin Plugin -->
 <?php echo $this->Html->script('cambiaColorForm', ['block' => 'scriptjs']); ?>
 <script type="text/javascript">
+  $('#formboletin').submit(function(e){
+    $('#datatable5 > tbody > tr input[type=checkbox]').each(function(i,val){
+      if($(val).prop('checked')){
+        //alert(val.name.substring(10));
+        $('#formboletin').append('<input type="hidden" name="noticias['+i+']" value="'+val.name.substring(10)+'">');
+      }
+    });
+    //e.preventDefault();
+  });
+  
+  
+  
   jQuery(document).ready(function () {
 
       $('#datetimepicker1, #datetimepicker2').datetimepicker({

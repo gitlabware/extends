@@ -1,18 +1,19 @@
 <?php
 namespace App\Model\Table;
 
-use App\Model\Entity\Adjunto;
+use App\Model\Entity\Contactosboletine;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Adjuntos Model
+ * Contactosboletines Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Noticias
+ * @property \Cake\ORM\Association\BelongsTo $Contactos
+ * @property \Cake\ORM\Association\BelongsTo $Boletines
  */
-class AdjuntosTable extends Table
+class ContactosboletinesTable extends Table
 {
 
     /**
@@ -23,12 +24,16 @@ class AdjuntosTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->table('adjuntos');
+        $this->table('contactosboletines');
         $this->displayField('id');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Noticias', [
-            'foreignKey' => 'noticia_id',
+        $this->belongsTo('Contactos', [
+            'foreignKey' => 'contacto_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Boletines', [
+            'foreignKey' => 'boletine_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -46,10 +51,8 @@ class AdjuntosTable extends Table
             ->allowEmpty('id', 'create');
             
         $validator
-            ->allowEmpty('url_ext');
-            
-        $validator
-            ->allowEmpty('url_int');
+            ->requirePresence('estado', 'create')
+            ->notEmpty('estado');
 
         return $validator;
     }
@@ -63,7 +66,8 @@ class AdjuntosTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['noticia_id'], 'Noticias'));
+        $rules->add($rules->existsIn(['contacto_id'], 'Contactos'));
+        $rules->add($rules->existsIn(['boletine_id'], 'Boletines'));
         return $rules;
     }
 }

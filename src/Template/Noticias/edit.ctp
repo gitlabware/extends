@@ -370,7 +370,7 @@ echo $this->Html->css([
                                 <script>
                                   vec_file[1]++;
                                 </script>
-                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                <div class="row" id="darchivo-1-<?= $num ?>">
                                     <div class="col-md-12">
                                         <div class="section">
 
@@ -551,7 +551,7 @@ echo $this->Html->css([
                                 <script>
                                   vec_file[2]++;
                                 </script>
-                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                <div class="row" id="darchivo-2-<?= $num ?>">
                                     <div class="col-md-12">
                                         <div class="section">
 
@@ -731,7 +731,7 @@ echo $this->Html->css([
                                 <script>
                                   vec_file[3]++;
                                 </script>
-                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                <div class="row" id="darchivo-3-<?= $num ?>">
                                     <div class="col-md-12">
                                         <div class="section">
 
@@ -893,7 +893,7 @@ echo $this->Html->css([
                                 <script>
                                   vec_file[4]++;
                                 </script>
-                                <div class="row" id="darchivo-0-<?= $num ?>">
+                                <div class="row" id="darchivo-4-<?= $num ?>">
                                     <div class="col-md-12">
                                         <div class="section">
 

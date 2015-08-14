@@ -1,7 +1,7 @@
 <?php
 use Phinx\Migration\AbstractMigration;
 
-class CreateAdjuntos extends AbstractMigration
+class CreateBoletines extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,21 +12,16 @@ class CreateAdjuntos extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('adjuntos');
-        $table->addColumn('noticia_id', 'integer', [
+        $table = $this->table('boletines');
+        $table->addColumn('numero', 'integer', [
             'default' => null,
             'limit' => 11,
             'null' => false,
         ]);
-        $table->addColumn('url_ext', 'string', [
+        $table->addColumn('cliente_id', 'integer', [
             'default' => null,
-            'limit' => 255,
-            'null' => true,
-        ]);
-        $table->addColumn('url_int', 'string', [
-            'default' => null,
-            'limit' => 255,
-            'null' => true,
+            'limit' => 11,
+            'null' => false,
         ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,

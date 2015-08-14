@@ -4,10 +4,10 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * AdjuntosFixture
+ * ContactosboletinesFixture
  *
  */
-class AdjuntosFixture extends TestFixture
+class ContactosboletinesFixture extends TestFixture
 {
 
     /**
@@ -18,9 +18,9 @@ class AdjuntosFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'noticia_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'url_ext' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
-        'url_int' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
+        'contacto_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'boletine_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'estado' => ['type' => 'string', 'length' => 30, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'fixed' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -41,11 +41,11 @@ class AdjuntosFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'noticia_id' => 1,
-            'url_ext' => 'Lorem ipsum dolor sit amet',
-            'url_int' => 'Lorem ipsum dolor sit amet',
-            'created' => '2015-08-11 21:34:11',
-            'modified' => '2015-08-11 21:34:11'
+            'contacto_id' => 1,
+            'boletine_id' => 1,
+            'estado' => 'Lorem ipsum dolor sit amet',
+            'created' => '2015-08-14 21:55:43',
+            'modified' => '2015-08-14 21:55:43'
         ],
     ];
 }

@@ -1,14 +1,14 @@
 <?php
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\AdjuntosTable;
+use App\Model\Table\ContactosboletinesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\AdjuntosTable Test Case
+ * App\Model\Table\ContactosboletinesTable Test Case
  */
-class AdjuntosTableTest extends TestCase
+class ContactosboletinesTableTest extends TestCase
 {
 
     /**
@@ -17,11 +17,13 @@ class AdjuntosTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.adjuntos',
+        'app.contactosboletines',
+        'app.contactos',
+        'app.clientes',
         'app.noticias',
         'app.temas',
-        'app.clientes',
-        'app.medios'
+        'app.medios',
+        'app.boletines'
     ];
 
     /**
@@ -32,8 +34,8 @@ class AdjuntosTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Adjuntos') ? [] : ['className' => 'App\Model\Table\AdjuntosTable'];
-        $this->Adjuntos = TableRegistry::get('Adjuntos', $config);
+        $config = TableRegistry::exists('Contactosboletines') ? [] : ['className' => 'App\Model\Table\ContactosboletinesTable'];
+        $this->Contactosboletines = TableRegistry::get('Contactosboletines', $config);
     }
 
     /**
@@ -43,7 +45,7 @@ class AdjuntosTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Adjuntos);
+        unset($this->Contactosboletines);
 
         parent::tearDown();
     }

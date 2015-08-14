@@ -165,7 +165,7 @@ class NoticiasController extends AppController {
     $adjuntos->deleteAll(['noticia_id' => $idNoticia]);
     $da = $this->request->data['data'][$key];
     if (!empty($da['adjuntos'])) {
-      foreach ($da['adjuntos'] as $pr) {
+      foreach ($da['adjuntos'] as $key2 => $pr) {
         if (!empty($pr['archivo'])) {
           $archivo = $pr['archivo'];
           $extension = explode('.', $archivo['name']);
@@ -174,6 +174,8 @@ class NoticiasController extends AppController {
             $nombre = Text::uuid();
             if (move_uploaded_file($archivo['tmp_name'], WWW_ROOT . 'adjuntos' . DS . $nombre . '.' . $ext)) {
               $nombre_archivo = $nombre . '.' . $ext;
+              $this->request->data['data'][$key]['adjuntos'][$key2]['url_int'] = $nombre_archivo;
+              $this->request->data['data'][$key]['adjuntos'][$key2]['archivo'] = NULL;
               $adjuntos = TableRegistry::get('Adjuntos');
               $adjunto = $adjuntos->newEntity();
               $d_adjunto['url_int'] = $nombre_archivo;
@@ -182,8 +184,8 @@ class NoticiasController extends AppController {
               $adjuntos->save($adjunto);
             }
           } else {
-            /* $this->Flash->msgerror('Ocurrio un error al cargar el adjunto '.$archivo['name']);
-              $this->redirect($this->referer()); */
+             $this->Flash->msgerror('Ocurrio un error al cargar el adjunto '.$archivo['name']);
+              $this->redirect($this->referer()); 
           }
         } elseif (!empty($pr['url_int'])) {
           $adjuntos = TableRegistry::get('Adjuntos');
@@ -327,9 +329,17 @@ class NoticiasController extends AppController {
     $dcc = TableRegistry::get('Clientes')->find('all', [
       'order' => ['Clientes.nombre ASC']
     ]);
-    //debug($noticias->toArray());die;
-    $this->set(compact('noticias', 'dcm', 'dcc'));
+    $clientes = TableRegistry::get('Clientes');
+    $l_clientes = $clientes->find('list')->toArray();
+    //debug($l_clientes);die;
+    $this->set(compact('noticias', 'dcm', 'dcc','l_clientes'));
     //$this->set('_serialize', ['noticias']);
+  }
+  
+  public function genera_boletin(){
+    debug($this->request->data);
+    exit;
+    
   }
 
 }
