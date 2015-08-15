@@ -17,6 +17,7 @@ class Boletine extends Entity
     protected $_accessible = [
         'numero' => true,
         'cliente_id' => true,
+        'noticia_id' => true,
         'cliente' => true,
         'contactosboletines' => true,
     ];

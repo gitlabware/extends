@@ -22,7 +22,8 @@ class BoletinesTableTest extends TestCase
         'app.noticias',
         'app.temas',
         'app.medios',
-        'app.contactosboletines'
+        'app.contactosboletines',
+        'app.contactos'
     ];
 
     /**

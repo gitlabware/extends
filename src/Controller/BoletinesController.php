@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Network\Email\Email;
 
 /**
  * Boletines Controller
@@ -12,17 +13,16 @@ use Cake\ORM\TableRegistry;
  */
 class BoletinesController extends AppController {
 
+  public $layout = 'extends';
+
   /**
    * Index method
    *
    * @return void
    */
   public function index() {
-    $this->paginate = [
-      'contain' => ['Clientes']
-    ];
-    $this->set('boletines', $this->paginate($this->Boletines));
-    $this->set('_serialize', ['boletines']);
+    $boletines = $this->Boletines->find()->contain(['Clientes'])->select(['Clientes.nombre','numero','created'])->group('numero')->toArray();
+    $this->set(compact('boletines'));
   }
 
   /**
@@ -105,32 +105,84 @@ class BoletinesController extends AppController {
   }
 
   public function genera_boletin() {
-    debug($this->request->data);
-    exit;
+    /* debug($this->request->data);
+      exit; */
     $idCliente = $this->request->data['cliente_id'];
     $contactos = TableRegistry::get('Contactos');
-    $cli_contactos = $contactos->find()->select(['id'])->where(['cliente_id' => $idCliente]); 
-    if(!empty($this->request->data['noticias'])){
+    $cont_bolets = TableRegistry::get('Contactosboletines');
+    $cli_contactos = $contactos->find()->select(['id'])->where(['cliente_id' => $idCliente]);
+    if (!empty($this->request->data['noticias'])) {
       $numero = $this->get_numero();
-      foreach ($this->request->data['noticias'] as $not){
+      foreach ($this->request->data['noticias'] as $not) {
         $boletin = $this->Boletines->newEntity();
         $d_bol['numero'] = $numero;
         $d_bol['cliente_id'] = $idCliente;
+        $d_bol['noticia_id'] = $idCliente;
         $boletin = $this->Boletines->patchEntity($boletin, $d_bol);
-        $this->Boletines->save($boletin);
-        
+        $resultado = $this->Boletines->save($boletin);
       }
+      foreach ($cli_contactos as $cl) {
+        $cont_bolet = $cont_bolets->newEntity();
+        $d_con['contacto_id'] = $cl->id;
+        $d_con['numero'] = $numero;
+        $d_con['estado'] = 1;
+        $d_con['enviado'] = 0;
+        $cont_bolet = $cont_bolets->patchEntity($cont_bolet, $d_con);
+        $cont_bolets->save($cont_bolet);
+      }
+      $this->Flash->msgbueno('Se genero correctamente el boletin!!');
+      $this->redirect(['action' => 'listado', $numero]);
+    } else {
+      $this->Flash->msgerror('No se selecciono ningna noticia!!!');
+      $this->redirect($this->referer());
     }
   }
-  
-  public function get_numero(){
-    $boletin = $this->Boletines->find()->select(['numero'])->group(['numero'])->order(['numero' => 'DESC'])->limit(1)->toArray();
+
+  public function listado($numero = null) {
+    $l_boletines = $this->Boletines->find()
+        ->contain(['Noticias', 'Clientes'])
+        ->select(['Noticias.titulo', 'Boletines.created', 'Clientes.id', 'Clientes.nombre', 'Boletines.numero'])
+        ->where(['numero' => $numero])->toArray();
+    $contactos = TableRegistry::get('Contactosboletines');
+    $cliente = current($l_boletines);
+    $l_contactos = $contactos->find()->contain(['Contactos'])->select(['Contactos.nombre', 'Contactos.email', 'estado', 'id'])->where(['numero' => $numero])->toArray();
     
-    if(!empty($boletin)){
+    $this->set(compact('l_boletines', 'l_contactos', 'cliente'));
+    /* debug($l_contactos);
+      debug($l_boletines);
+      exit; */
+  }
+
+  public function get_numero() {
+    $boletin = $this->Boletines->find()->select(['numero'])->group(['numero'])->order(['numero' => 'DESC'])->limit(1)->toArray();
+    if (!empty($boletin)) {
       return $boletin[0]->numero + 1;
-    }else{
+    } else {
       return 1;
     }
+  }
+
+  public function envia() {
+    
+    Email::configTransport('gmail', [
+      'host' => 'mail.cristiamherrera.net',
+      'port' => 26,
+      'username' => 'extend@cristiamherrera.net',
+      'password' => '123extend456',
+      'className' => 'Smtp'
+    ]);
+    
+    $email = new Email();
+    
+    $email->viewVars(['value' => 12345]);
+    $email->transport('gmail');
+    $email->template('prueba')->emailFormat('html')->from(['extend@cristiamherrera.net' => 'My Site'])
+      ->to('eynarfrio@gmail.com')
+      ->subject('PRUEBA')
+      ->send();
+
+    debug($email);
+    exit;
   }
 
 }

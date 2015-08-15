@@ -22,6 +22,7 @@ class BoletinesFixture extends TestFixture
         'cliente_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'noticia_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -42,8 +43,9 @@ class BoletinesFixture extends TestFixture
             'id' => 1,
             'numero' => 1,
             'cliente_id' => 1,
-            'created' => '2015-08-14 21:55:20',
-            'modified' => '2015-08-14 21:55:20'
+            'created' => '2015-08-15 03:12:19',
+            'modified' => '2015-08-15 03:12:19',
+            'noticia_id' => 1
         ],
     ];
 }

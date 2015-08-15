@@ -16,8 +16,9 @@ class Contactosboletine extends Entity
      */
     protected $_accessible = [
         'contacto_id' => true,
-        'boletine_id' => true,
         'estado' => true,
+        'enviado' => true,
+        'numero' => true,
         'contacto' => true,
         'boletine' => true,
     ];

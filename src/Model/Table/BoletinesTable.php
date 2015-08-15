@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
  * Boletines Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Clientes
- * @property \Cake\ORM\Association\HasMany $Contactosboletines
+ * @property \Cake\ORM\Association\BelongsTo $Noticias
  */
 class BoletinesTable extends Table
 {
@@ -32,8 +32,9 @@ class BoletinesTable extends Table
             'foreignKey' => 'cliente_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasMany('Contactosboletines', [
-            'foreignKey' => 'boletine_id'
+        $this->belongsTo('Noticias', [
+            'foreignKey' => 'noticia_id',
+            'joinType' => 'INNER'
         ]);
     }
 
@@ -67,6 +68,7 @@ class BoletinesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['cliente_id'], 'Clientes'));
+        $rules->add($rules->existsIn(['noticia_id'], 'Noticias'));
         return $rules;
     }
 }

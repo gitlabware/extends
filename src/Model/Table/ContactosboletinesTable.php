@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
  * Contactosboletines Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Contactos
- * @property \Cake\ORM\Association\BelongsTo $Boletines
  */
 class ContactosboletinesTable extends Table
 {
@@ -32,10 +31,6 @@ class ContactosboletinesTable extends Table
             'foreignKey' => 'contacto_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('Boletines', [
-            'foreignKey' => 'boletine_id',
-            'joinType' => 'INNER'
-        ]);
     }
 
     /**
@@ -51,8 +46,16 @@ class ContactosboletinesTable extends Table
             ->allowEmpty('id', 'create');
             
         $validator
-            ->requirePresence('estado', 'create')
-            ->notEmpty('estado');
+            ->add('estado', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('estado');
+            
+        $validator
+            ->add('enviado', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('enviado');
+            
+        $validator
+            ->add('numero', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('numero');
 
         return $validator;
     }
@@ -67,7 +70,6 @@ class ContactosboletinesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['contacto_id'], 'Contactos'));
-        $rules->add($rules->existsIn(['boletine_id'], 'Boletines'));
         return $rules;
     }
 }
