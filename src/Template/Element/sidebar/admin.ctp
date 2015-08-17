@@ -11,12 +11,19 @@
                     <span class="glyphicons glyphicons-list"></span>
                     <span class="sidebar-title">Listado General</span>
                 </a>
-            </li>  
-            
+            </li>
             <li>
                <a href="<?php echo $this->url->build(['controller'=>'Noticias', 'action'=>'add']); ?>">
                     <span class="glyphicons glyphicons-circle_plus"></span>
                     <span class="sidebar-title">Agregar Noticia</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-label pt20">Boletines</li>
+            <li>
+                <a href="<?php echo $this->url->build(['controller'=>'Boletines', 'action'=>'index']); ?>">
+                    <span class="glyphicons glyphicons-list"></span>
+                    <span class="sidebar-title">Listado General</span>
                 </a>
             </li>
             

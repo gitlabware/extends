@@ -21,7 +21,7 @@ class BoletinesController extends AppController {
    * @return void
    */
   public function index() {
-    $boletines = $this->Boletines->find()->contain(['Clientes'])->select(['Clientes.nombre','numero','created'])->group('numero')->toArray();
+    $boletines = $this->Boletines->find()->contain(['Clientes'])->select(['Clientes.nombre', 'numero', 'created'])->group('numero')->toArray();
     $this->set(compact('boletines'));
   }
 
@@ -94,14 +94,21 @@ class BoletinesController extends AppController {
    * @throws \Cake\Network\Exception\NotFoundException When record not found.
    */
   public function delete($id = null) {
-    $this->request->allowMethod(['post', 'delete']);
     $boletine = $this->Boletines->get($id);
     if ($this->Boletines->delete($boletine)) {
-      $this->Flash->success(__('The boletine has been deleted.'));
+      $this->Flash->msgbueno(__('The boletine has been deleted.'));
     } else {
-      $this->Flash->error(__('The boletine could not be deleted. Please, try again.'));
+      $this->Flash->msgerror(__('The boletine could not be deleted. Please, try again.'));
     }
-    return $this->redirect(['action' => 'index']);
+    return $this->redirect($this->referer());
+  }
+  
+  public function eliminar($numero = null){
+    $this->Boletines->deleteAll(['numero' => $numero]);
+    $cont_bolets = TableRegistry::get('Contactosboletines');
+    $cont_bolets->deleteAll(['numero' => $numero]);
+    $this->Flash->msgbueno('Se elimino correctamente el boletin!!');
+    $this->redirect(['action' => 'index']);
   }
 
   public function genera_boletin() {
@@ -117,7 +124,7 @@ class BoletinesController extends AppController {
         $boletin = $this->Boletines->newEntity();
         $d_bol['numero'] = $numero;
         $d_bol['cliente_id'] = $idCliente;
-        $d_bol['noticia_id'] = $idCliente;
+        $d_bol['noticia_id'] = $not;
         $boletin = $this->Boletines->patchEntity($boletin, $d_bol);
         $resultado = $this->Boletines->save($boletin);
       }
@@ -141,12 +148,12 @@ class BoletinesController extends AppController {
   public function listado($numero = null) {
     $l_boletines = $this->Boletines->find()
         ->contain(['Noticias', 'Clientes'])
-        ->select(['Noticias.titulo', 'Boletines.created', 'Clientes.id', 'Clientes.nombre', 'Boletines.numero'])
+        ->select(['Noticias.titulo', 'Noticias.descripcion','Boletines.id', 'Boletines.created', 'Clientes.id', 'Clientes.nombre', 'Boletines.numero'])
         ->where(['numero' => $numero])->toArray();
     $contactos = TableRegistry::get('Contactosboletines');
     $cliente = current($l_boletines);
     $l_contactos = $contactos->find()->contain(['Contactos'])->select(['Contactos.nombre', 'Contactos.email', 'estado', 'id'])->where(['numero' => $numero])->toArray();
-    
+
     $this->set(compact('l_boletines', 'l_contactos', 'cliente'));
     /* debug($l_contactos);
       debug($l_boletines);
@@ -162,8 +169,8 @@ class BoletinesController extends AppController {
     }
   }
 
-  public function envia() {
-    
+  public function envia($numero = null) {
+
     Email::configTransport('gmail', [
       'host' => 'mail.cristiamherrera.net',
       'port' => 26,
@@ -171,18 +178,37 @@ class BoletinesController extends AppController {
       'password' => '123extend456',
       'className' => 'Smtp'
     ]);
-    
-    $email = new Email();
-    
-    $email->viewVars(['value' => 12345]);
-    $email->transport('gmail');
-    $email->template('prueba')->emailFormat('html')->from(['extend@cristiamherrera.net' => 'My Site'])
-      ->to('eynarfrio@gmail.com')
-      ->subject('PRUEBA')
-      ->send();
 
-    debug($email);
-    exit;
+    if (!empty($this->request->data['contactos'])) {
+      $l_boletines = $this->Boletines->find()
+          ->contain(['Noticias', 'Clientes'])
+          ->select(['Noticias.titulo', 'Noticias.descripcion', 'Boletines.created', 'Clientes.id', 'Clientes.nombre', 'Boletines.numero'])
+          ->where(['numero' => $numero])->toArray();
+      $contactos = TableRegistry::get('Contactosboletines');
+      foreach ($this->request->data['contactos'] as $key => $con) {
+        $contacto = $contactos->get($key, [
+          'contain' => ['Contactos']
+        ]);
+        $d_con['enviado'] = 0;
+        if ($con) {
+          /* debug($contacto);
+            exit; */
+          $email = new Email();
+          $email->viewVars(['l_boletines' => $l_boletines]);
+          $email->transport('gmail');
+          $resp_e = $email->template('prueba')->emailFormat('html')->from(['extend@cristiamherrera.net' => 'EXTENDS'])
+            ->to($contacto->contacto->email)
+            ->subject('EXTEND')
+            ->send();
+          $d_con['enviado'] = 1; 
+        }
+        $d_con['estado'] = $con;
+        $contacto = $contactos->patchEntity($contacto, $d_con);
+        $contactos->save($contacto);
+      }
+      $this->Flash->msgbueno('Se envio el boletin correactamente a todos los contactos');
+      $this->redirect(['action' => 'listado', $numero]);  
+    }
   }
 
 }
